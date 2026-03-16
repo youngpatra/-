@@ -213,6 +213,82 @@ body {
   100% { opacity: 0; transform: translateY(-80px) rotate(360deg); }
 }
 
+/* ログインセクション */
+.login-section {
+  animation: fadeUp 1s 0.6s cubic-bezier(.22,1,.36,1) both;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(245,200,66,0.2);
+  border-radius: 20px;
+  padding: 24px 32px;
+  width: min(360px, 90vw);
+}
+.login-badge {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  background: rgba(245,200,66,0.12);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(245,200,66,0.3);
+}
+.login-promo {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.promo-highlight { color: var(--gold); font-weight: 900; }
+.login-box { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.login-input {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 11px 16px;
+  color: white;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.login-input::placeholder { color: rgba(255,255,255,0.3); }
+.login-input:focus { border-color: rgba(245,200,66,0.5); }
+.login-btn {
+  background: linear-gradient(135deg, #f5c842, #e8a800);
+  color: #1a0a00;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 900;
+  font-size: 0.95rem;
+  letter-spacing: 0.15em;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 20px rgba(245,200,66,0.3);
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(245,200,66,0.5); }
+.login-btn:active { transform: translateY(1px); }
+.login-success {
+  display: none;
+  color: white;
+  font-weight: 900;
+  font-size: 1.1rem;
+  text-align: center;
+  line-height: 1.8;
+  animation: popIn 0.5s cubic-bezier(.22,1,.36,1);
+}
+.success-sub { font-size: 0.85rem; font-weight: 400; color: var(--gold); }
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.7); }
+  to { opacity: 1; transform: scale(1); }
+}
+
 /* 小テキスト */
 .hint {
   font-size: 0.78rem;
@@ -248,9 +324,43 @@ body {
   </div>
 
   <div class="hint">タップしてスタート</div>
+
+  <!-- ログインセクション -->
+
+  <div class="login-section" id="loginSection">
+    <div class="login-badge">🌟 会員限定特典</div>
+    <div class="login-promo">ログインすると<span class="promo-highlight">見附ガチャ有料特典が無料</span>に！</div>
+
+```
+<div class="login-box" id="loginBox">
+  <input class="login-input" id="emailInput" type="text" placeholder="メールアドレス" autocomplete="off">
+  <input class="login-input" id="passInput" type="password" placeholder="パスワード">
+  <button class="login-btn" onclick="doLogin()">ログイン</button>
+</div>
+
+<div class="login-success" id="loginSuccess">
+  ✅ ログイン完了！<br>
+  <span class="success-sub">ようこそ、見附ガチャVIP会員へ！🎉</span>
+</div>
+```
+
+  </div>
 </div>
 
 <script>
+  function doLogin() {
+    const email = document.getElementById('emailInput').value;
+    const pass = document.getElementById('passInput').value;
+    if (!email && !pass) {
+      document.getElementById('emailInput').style.borderColor = 'rgba(255,100,100,0.6)';
+      setTimeout(() => document.getElementById('emailInput').style.borderColor = '', 1000);
+      return;
+    }
+    document.getElementById('loginBox').style.display = 'none';
+    const s = document.getElementById('loginSuccess');
+    s.style.display = 'block';
+  }
+
   // 星を生成
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
