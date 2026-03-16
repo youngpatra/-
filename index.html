@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>見附ガチャ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Dots&family=Noto+Sans+JP:wght@400;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+```
+:root {
+  --gold: #f5c842;
+  --gold2: #e8a800;
+  --bg: #0a0612;
+  --purple: #2a0a4a;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Noto Sans JP', sans-serif;
+  overflow: hidden;
+}
+
+/* 背景の星 */
+.stars {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.4); }
+}
+
+/* 背景グロー */
+.glow-bg {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(90,20,160,0.35) 0%, transparent 70%);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
+}
+
+/* メインコンテナ */
+.container {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+/* タイトル */
+.title-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeDown 0.8s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.title-sub {
+  font-family: 'Zen Dots', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+.title-main {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 8vw, 3.8rem);
+  color: white;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-shadow: 0 0 40px rgba(245,200,66,0.4), 0 2px 20px rgba(0,0,0,0.8);
+}
+
+.title-accent {
+  color: var(--gold);
+  position: relative;
+}
+.title-accent::after {
+  content: '';
+  position: absolute;
+  bottom: -4px; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  border-radius: 2px;
+}
+
+/* ガチャマシン風アイコン */
+.gacha-icon {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #7b2fff, #2a0a4a 60%);
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 30px rgba(245,200,66,0.4), inset 0 0 20px rgba(123,47,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.2rem;
+  animation: float 3s ease-in-out infinite, fadeDown 0.8s 0.1s cubic-bezier(.22,1,.36,1) both;
+  cursor: default;
+  user-select: none;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ボタン */
+.btn-wrap {
+  animation: fadeUp 0.9s 0.3s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  background: linear-gradient(135deg, #f5c842 0%, #e8a800 50%, #f5c842 100%);
+  background-size: 200% 200%;
+  color: #1a0a00;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.3rem, 4vw, 1.7rem);
+  letter-spacing: 0.12em;
+  padding: 22px 52px;
+  border: none;
+  border-radius: 60px;
+  cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 8px 40px rgba(245,200,66,0.5), 0 2px 0 rgba(255,255,255,0.2) inset;
+  transition: transform 0.15s, box-shadow 0.15s, background-position 0.4s;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 60px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent 50%);
+  pointer-events: none;
+}
+
+.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 50px rgba(245,200,66,0.7), 0 2px 0 rgba(255,255,255,0.2) inset;
+  background-position: 100% 100%;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+  box-shadow: 0 4px 20px rgba(245,200,66,0.4);
+}
+
+.btn-icon { font-size: 1.4em; }
+
+/* キラキラエフェクト */
+.sparkles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+.sp {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: spFloat var(--spd, 4s) ease-in-out infinite var(--spdl, 0s);
+}
+@keyframes spFloat {
+  0% { opacity: 0; transform: translateY(0) rotate(0deg); }
+  20% { opacity: 1; }
+  80% { opacity: 0.6; }
+  100% { opacity: 0; transform: translateY(-80px) rotate(360deg); }
+}
+
+/* 小テキスト */
+.hint {
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.15em;
+  animation: fadeUp 1s 0.5s cubic-bezier(.22,1,.36,1) both;
+}
+```
+
+  </style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+<div class="glow-bg"></div>
+<div class="sparkles" id="sparkles"></div>
+
+<div class="container">
+  <div class="gacha-icon">🎰</div>
+
+  <div class="title-wrap">
+    <div class="title-sub">★ Mitsuke City Gacha ★</div>
+    <div class="title-main">
+      <span class="title-accent">見附</span>ガチャ
+    </div>
+  </div>
+
+  <div class="btn-wrap">
+    <a class="btn" href="見附ガチャ完全版.html">
+      <span class="btn-icon">🎲</span>
+      ガチャを引く！
+    </a>
+  </div>
+
+  <div class="hint">タップしてスタート</div>
+</div>
+
+<script>
+  // 星を生成
+  const starsEl = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() * 2.5 + 0.5;
+    s.style.cssText = `
+      width:${size}px; height:${size}px;
+      top:${Math.random()*100}%;
+      left:${Math.random()*100}%;
+      --d:${2+Math.random()*4}s;
+      --delay:${Math.random()*4}s;
+    `;
+    starsEl.appendChild(s);
+  }
+
+  // キラキラ
+  const spEl = document.getElementById('sparkles');
+  const gems = ['✦','✧','⋆','★','◆','✨'];
+  for (let i = 0; i < 14; i++) {
+    const sp = document.createElement('div');
+    sp.className = 'sp';
+    sp.textContent = gems[Math.floor(Math.random()*gems.length)];
+    sp.style.cssText = `
+      left:${5+Math.random()*90}%;
+      top:${20+Math.random()*60}%;
+      --spd:${3+Math.random()*4}s;
+      --spdl:${Math.random()*5}s;
+      font-size:${0.7+Math.random()*0.8}rem;
+      color: hsl(${40+Math.random()*20}, 100%, ${60+Math.random()*30}%);
+    `;
+    spEl.appendChild(sp);
+  }
+</script>
+
+</body>
+</html>
