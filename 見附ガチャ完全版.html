@@ -22,10 +22,14 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 @keyframes lampPulse{from{opacity:.7;}to{opacity:1;}}
 .title-wrap{position:relative;z-index:10;text-align:center;padding:20px;}
 .title-main{font-size:clamp(1.4rem,5vw,2.2rem);font-weight:900;color:#fff;text-shadow:0 0 20px rgba(100,180,255,.8),0 2px 4px rgba(0,0,0,.9);line-height:1.4;margin-bottom:8px;}
-.title-sub{font-size:clamp(.9rem,3vw,1.1rem);color:rgba(180,210,255,.7);margin-bottom:40px;letter-spacing:.2em;}
-.start-btn{padding:16px 48px;font-size:1.2rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:linear-gradient(135deg,#ff6b35,#ff3f00);color:#fff;border:none;border-radius:50px;cursor:pointer;box-shadow:0 0 30px rgba(255,100,0,.6);transition:transform .15s;animation:btnPulse 2s infinite alternate;}
+.title-sub{font-size:clamp(.9rem,3vw,1.1rem);color:rgba(180,210,255,.7);margin-bottom:32px;letter-spacing:.2em;}
+.title-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.start-btn{padding:16px 40px;font-size:1.2rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:linear-gradient(135deg,#ff6b35,#ff3f00);color:#fff;border:none;border-radius:50px;cursor:pointer;box-shadow:0 0 30px rgba(255,100,0,.6);transition:transform .15s;animation:btnPulse 2s infinite alternate;}
 .start-btn:hover{transform:scale(1.06);}
 @keyframes btnPulse{from{box-shadow:0 0 20px rgba(255,100,0,.5);}to{box-shadow:0 0 40px rgba(255,150,0,.8);}}
+.zukan-btn{padding:16px 28px;font-size:1rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:linear-gradient(135deg,#2255aa,#113388);color:#fff;border:none;border-radius:50px;cursor:pointer;box-shadow:0 0 20px rgba(50,100,255,.4);transition:transform .15s;position:relative;}
+.zukan-btn:hover{transform:scale(1.05);}
+.zukan-badge{position:absolute;top:-6px;right:-6px;background:#ff3f00;color:#fff;font-size:.7rem;font-weight:900;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
 /* MODAL */
 #modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
 #modal.show{opacity:1;pointer-events:all;}
@@ -59,12 +63,22 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 @keyframes crackOpen{0%{transform:scale(1);}30%{transform:scale(1.3) rotate(5deg);}60%{transform:scale(.8) rotate(-3deg);}100%{transform:scale(0);opacity:0;}}
 .flash{position:fixed;inset:0;z-index:50;background:#fff;animation:flashOut .5s ease-out forwards;pointer-events:none;}
 @keyframes flashOut{from{opacity:1;}to{opacity:0;}}
+/* RAINBOW FLASH */
+.rainbow-flash{position:fixed;inset:0;z-index:55;pointer-events:none;animation:rainbowAnim 1.2s ease-out forwards;}
+@keyframes rainbowAnim{
+  0%{background:linear-gradient(135deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff);opacity:1;}
+  20%{background:linear-gradient(225deg,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff,#ff0000);opacity:.9;}
+  40%{background:linear-gradient(315deg,#ffff00,#00ff00,#0088ff,#8800ff,#ff0000,#ff8800);opacity:.8;}
+  60%{background:linear-gradient(45deg,#00ff00,#0088ff,#8800ff,#ff0000,#ff8800,#ffff00);opacity:.6;}
+  80%{background:linear-gradient(135deg,#0088ff,#8800ff,#ff0000,#ff8800,#ffff00,#00ff00);opacity:.3;}
+  100%{opacity:0;}
+}
 .shake{animation:shakeAnim .4s ease-in-out;}
 @keyframes shakeAnim{0%,100%{transform:translateX(0);}20%{transform:translateX(-8px);}40%{transform:translateX(8px);}60%{transform:translateX(-6px);}80%{transform:translateX(6px);}}
 /* CARD */
 #cardScreen{background:radial-gradient(ellipse at center,#0a0a20 0%,#000 100%);overflow:hidden;}
 .card-container{position:relative;z-index:10;text-align:center;padding:20px;}
-.rarity-label{font-size:1rem;font-weight:700;letter-spacing:.3em;margin-bottom:12px;animation:fadeInUp .5s ease;}
+.rarity-label{font-size:1rem;font-weight:700;letter-spacing:.3em;margin-bottom:12px;}
 .rarity-vr .rarity-label{color:#FFD700;text-shadow:0 0 20px #FFD700;}
 .rarity-sr .rarity-label{color:#C0C0C0;text-shadow:0 0 15px #C0C0C0;}
 .rarity-c  .rarity-label{color:#88aaff;}
@@ -81,7 +95,31 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 @keyframes shimmerMove{from{transform:translateX(-100%) translateY(-100%);}to{transform:translateX(50%) translateY(50%);}}
 .confetti-piece{position:fixed;top:-10px;width:10px;height:10px;border-radius:2px;animation:confettiFall var(--dur,3s) var(--delay,0s) linear forwards;pointer-events:none;z-index:200;}
 @keyframes confettiFall{0%{transform:translateY(0) rotate(0);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:.3;}}
-/* MINIGAME COMMON */
+/* ZUKAN */
+#zukanScreen{background:#050a14;overflow:hidden;flex-direction:column;}
+.zukan-header{position:absolute;top:0;left:0;right:0;padding:14px 20px;background:rgba(0,0,0,.8);display:flex;align-items:center;justify-content:space-between;z-index:10;border-bottom:1px solid rgba(255,215,0,.2);}
+.zukan-title{color:#FFD700;font-size:1.1rem;font-weight:900;text-shadow:0 0 10px #FFD700;}
+.zukan-close{padding:8px 20px;font-size:.9rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:20px;cursor:pointer;}
+.zukan-grid{position:absolute;inset:0;top:56px;overflow-y:auto;padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:12px;align-content:start;}
+.zukan-card{border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;transition:transform .15s;position:relative;}
+.zukan-card:hover{transform:scale(1.06);}
+.zukan-card.unlocked-vr{background:linear-gradient(135deg,#1a1000,#3a2800);border:2px solid #FFD700;box-shadow:0 0 15px rgba(255,215,0,.4);}
+.zukan-card.unlocked-sr{background:linear-gradient(135deg,#0f0f1a,#1a1a2a);border:2px solid #C0C0C0;box-shadow:0 0 10px rgba(192,192,192,.3);}
+.zukan-card.unlocked-c{background:linear-gradient(135deg,#0a0a1a,#121230);border:2px solid #446;}
+.zukan-card.locked{background:rgba(255,255,255,.04);border:2px solid rgba(255,255,255,.08);filter:grayscale(1);opacity:.35;}
+.zukan-name{font-size:.65rem;font-weight:700;color:#fff;margin-top:4px;line-height:1.3;}
+.zukan-new{position:absolute;top:-5px;right:-5px;background:#ff3f00;color:#fff;font-size:.6rem;font-weight:900;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;}
+.zukan-count{color:rgba(180,210,255,.6);font-size:.85rem;text-align:center;margin-bottom:4px;}
+/* DETAIL MODAL */
+#detailModal{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;}
+#detailModal.show{opacity:1;pointer-events:all;}
+.detail-box{background:linear-gradient(135deg,#0a0a20,#1a1a30);border-radius:20px;padding:28px 24px;max-width:320px;width:88%;text-align:center;position:relative;}
+.detail-close{position:absolute;top:12px;right:14px;background:rgba(255,255,255,.1);color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.detail-rarity{font-size:.9rem;font-weight:700;letter-spacing:.2em;margin-bottom:8px;}
+.detail-name{font-size:1.2rem;font-weight:900;color:#fff;margin-top:8px;}
+.detail-serif{font-size:.85rem;color:#ffcc88;margin-top:6px;font-style:italic;}
+.detail-count{font-size:.8rem;color:rgba(180,210,255,.6);margin-top:8px;}
+/* MINIGAME */
 #miniScreen{overflow:hidden;}
 .mini-overlay{position:fixed;inset:0;z-index:150;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .4s;}
 .mini-overlay.show{opacity:1;pointer-events:all;}
@@ -90,10 +128,9 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 .result-title{font-size:clamp(2rem,8vw,4rem);font-weight:900;text-align:center;margin-bottom:16px;}
 #clearOverlay .result-title{color:#7fff7f;text-shadow:0 0 30px #0f0;}
 #failOverlay  .result-title{color:#ff4444;text-shadow:0 0 30px #f00;}
-.result-msg{color:#fff;font-size:1rem;margin-bottom:24px;text-align:center;line-height:1.7;padding:0 20px;}
+.result-msg{color:#fff;font-size:1rem;margin-bottom:24px;text-align:center;line-height:1.7;padding:0 20px;white-space:pre-line;}
 .replay-btn{padding:14px 40px;font-size:1.1rem;font-weight:700;font-family:'Noto Sans JP',sans-serif;background:linear-gradient(135deg,#ff6b35,#ff3f00);color:#fff;border:none;border-radius:50px;cursor:pointer;transition:transform .15s;}
 .replay-btn:hover{transform:scale(1.05);}
-/* ===GAME1: MOUNTAIN=== */
 #game1{position:absolute;inset:0;background:linear-gradient(180deg,#87ceeb 0%,#5aa8c8 30%,#2d7a2d 55%,#1a5a1a 100%);}
 #mtnCanvas{position:absolute;inset:0;width:100%;height:100%;}
 .mtn-ui{position:absolute;top:12px;left:0;right:0;z-index:20;display:flex;justify-content:space-between;padding:0 16px;}
@@ -101,7 +138,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 .mtn-bar{height:100%;background:linear-gradient(90deg,#ff6b35,#FFD700);border-radius:12px;width:0%;transition:width .1s;}
 .mtn-label{color:#fff;font-weight:700;font-size:.9rem;text-shadow:0 1px 3px rgba(0,0,0,.8);}
 .tap-hint{position:absolute;bottom:14%;left:0;right:0;text-align:center;z-index:20;color:#fff;font-weight:700;font-size:1rem;text-shadow:0 0 8px rgba(0,0,0,.8);animation:hintBounce 1s infinite alternate;}
-/* ===GAME2: DODGEBALL=== */
 #game2{position:absolute;inset:0;background:linear-gradient(180deg,#e8e0d0 0%,#d4c8b0 100%);}
 .gym-floor{position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(180deg,#c8a878,#b09060);}
 .gym-line{position:absolute;bottom:44%;left:0;right:0;height:3px;background:#fff;opacity:.5;}
@@ -116,9 +152,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 .dodge-left{background:linear-gradient(135deg,#4488ff,#2255cc);color:#fff;}
 .dodge-right{background:linear-gradient(135deg,#ff4488,#cc2255);color:#fff;}
 .hit-effect{position:fixed;inset:0;z-index:60;background:rgba(255,0,0,.5);animation:flashOut .4s ease-out forwards;pointer-events:none;}
-/* ===GAME3: SHOUT=== */
 #game3{position:absolute;inset:0;background:linear-gradient(180deg,#c8c8d8 0%,#a0a0b8 40%,#888898 100%);}
-.gym-bg{position:absolute;inset:0;}
 .takaki-wrap{position:absolute;bottom:30%;left:50%;transform:translateX(-50%);z-index:10;}
 .shout-ui{position:absolute;top:12px;left:0;right:0;z-index:30;text-align:center;}
 .shout-count{background:rgba(0,0,0,.7);color:#FFD700;padding:10px 24px;border-radius:20px;font-weight:900;font-size:1.1rem;display:inline-block;}
@@ -160,8 +194,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
   </div>
   <div class="title-wrap">
     <div class="title-main">見附出身のレアキャラを当てろ。</div>
-    <div class="title-sub">全50種</div>
-    <button class="start-btn" onclick="openModal()">ガチャを回す</button>
+    <div class="title-sub">全28種</div>
+    <div class="title-btns">
+      <button class="start-btn" onclick="openModal()">ガチャを回す</button>
+      <button class="zukan-btn" onclick="openZukan()" id="zukanBtn">📖 図鑑 <span class="zukan-badge" id="zukanBadge">0</span></button>
+    </div>
   </div>
 </div>
 
@@ -172,7 +209,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
     <h2>あなたの<span>ちんこ1本</span>と引き換えに<br>ガチャを回しますか？</h2>
     <div class="modal-btns">
       <button class="modal-btn" onclick="startGacha()">はい</button>
-      <button class="modal-btn" onclick="startGacha()">はい</button>
+      <button class="modal-btn" onclick="startGacha()">いいえ</button>
     </div>
   </div>
 </div>
@@ -186,13 +223,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
     <svg viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg" width="min(380px,90vw)">
       <defs><linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:#2d7a2d"/><stop offset="50%" style="stop-color:#1a5c1a"/><stop offset="100%" style="stop-color:#0d3d0d"/></linearGradient><linearGradient id="cg" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#e8e0c0"/><stop offset="100%" style="stop-color:#8a7a50"/></linearGradient><filter id="gf"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
       <ellipse cx="200" cy="280" rx="110" ry="260" fill="url(#sg)" filter="url(#gf)"/>
-      <g opacity=".4"><ellipse cx="180" cy="150" rx="18" ry="12" fill="#3a9a3a"/><ellipse cx="220" cy="145" rx="16" ry="11" fill="#3a9a3a"/><ellipse cx="155" cy="185" rx="17" ry="11" fill="#3a9a3a"/><ellipse cx="200" cy="178" rx="19" ry="12" fill="#3a9a3a"/><ellipse cx="240" cy="182" rx="16" ry="11" fill="#3a9a3a"/><ellipse cx="165" cy="225" rx="17" ry="11" fill="#3a9a3a"/><ellipse cx="205" cy="218" rx="19" ry="12" fill="#3a9a3a"/><ellipse cx="245" cy="222" rx="16" ry="11" fill="#3a9a3a"/></g>
+      <g opacity=".4"><ellipse cx="180" cy="150" rx="18" ry="12" fill="#3a9a3a"/><ellipse cx="220" cy="145" rx="16" ry="11" fill="#3a9a3a"/><ellipse cx="155" cy="185" rx="17" ry="11" fill="#3a9a3a"/><ellipse cx="200" cy="178" rx="19" ry="12" fill="#3a9a3a"/><ellipse cx="240" cy="182" rx="16" ry="11" fill="#3a9a3a"/></g>
       <ellipse cx="200" cy="490" rx="130" ry="90" fill="url(#sg)"/>
       <path d="M80,460 Q50,430 40,390 Q35,360 55,355 Q75,350 85,375 Q90,400 95,430 Z" fill="url(#sg)"/><path d="M40,358 Q30,340 45,330 Q65,325 75,345" fill="url(#cg)" stroke="#6a5a30" stroke-width="1"/>
       <path d="M120,410 Q108,360 110,310 Q112,275 130,270 Q150,268 155,300 Q158,330 150,375 Q140,410 130,425 Z" fill="url(#sg)"/><path d="M116,273 Q115,245 132,238 Q152,235 156,260" fill="url(#cg)" stroke="#6a5a30" stroke-width="1"/>
       <path d="M175,400 Q168,345 172,290 Q175,255 194,250 Q214,248 218,278 Q220,310 215,360 Q210,400 202,418 Z" fill="url(#sg)"/><path d="M170,253 Q172,225 192,218 Q213,215 218,242" fill="url(#cg)" stroke="#6a5a30" stroke-width="1"/>
-      <path d="M228,408 Q224,358 228,308 Q232,275 248,272 Q268,270 270,298 Q272,328 266,372 Q258,408 248,422 Z" fill="url(#sg)"/><path d="M225,275 Q228,248 247,242 Q268,240 270,265" fill="url(#cg)" stroke="#6a5a30" stroke-width="1"/>
-      <path d="M278,435 Q278,390 282,350 Q286,320 300,318 Q318,316 318,340 Q318,368 312,400 Q305,430 294,445 Z" fill="url(#sg)"/><path d="M282,320 Q284,298 300,292 Q320,290 320,315" fill="url(#cg)" stroke="#6a5a30" stroke-width="1"/>
+      <path d="M228,408 Q224,358 228,308 Q232,275 248,272 Q268,270 270,298 Q272,328 266,372 Q258,408 248,422 Z" fill="url(#sg)"/>
+      <path d="M278,435 Q278,390 282,350 Q286,320 300,318 Q318,316 318,340 Q318,368 312,400 Q305,430 294,445 Z" fill="url(#sg)"/>
       <polygon points="120,380 110,355 130,360" fill="#1a4a1a"/><polygon points="180,368 168,342 188,348" fill="#1a4a1a"/><polygon points="238,375 226,350 246,356" fill="#1a4a1a"/><polygon points="288,402 278,378 296,384" fill="#1a4a1a"/>
     </svg>
   </div>
@@ -215,20 +252,37 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
   <div class="card-container" id="cardContainer"></div>
 </div>
 
+<!-- ZUKAN -->
+
+<div class="screen hidden" id="zukanScreen">
+  <div class="zukan-header">
+    <span class="zukan-title">📖 見附キャラ図鑑</span>
+    <button class="zukan-close" onclick="closeZukan()">✕ 閉じる</button>
+  </div>
+  <div class="zukan-grid" id="zukanGrid"></div>
+</div>
+
+<!-- DETAIL MODAL -->
+
+<div id="detailModal">
+  <div class="detail-box" id="detailBox">
+    <button class="detail-close" onclick="closeDetail()">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
 <!-- MINI SCREEN -->
 
 <div class="screen hidden" id="miniScreen">
-  <!-- GAME 1: Mountain -->
   <div id="game1" style="display:none;">
     <canvas id="mtnCanvas"></canvas>
     <div class="mtn-ui">
-      <span class="mtn-label" id="mtnTapLabel">肉汁タップし: 0</span>
+      <span class="mtn-label" id="mtnTapLabel">タップ: 0</span>
       <div class="mtn-bar-wrap"><div class="mtn-bar" id="mtnBar"></div></div>
       <span class="mtn-label" id="mtnTimeLabel">5.0s</span>
     </div>
-    <div class="tap-hint" id="mtnHint">連打！連打！連打！</div>
+    <div class="tap-hint">連打！はよ！連打！</div>
   </div>
-  <!-- GAME 2: Dodgeball -->
   <div id="game2" style="display:none;">
     <div class="gym-floor"></div><div class="gym-line"></div>
     <div class="teacher-wrap" id="teacherWrap"></div>
@@ -240,7 +294,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
       <button class="dodge-btn dodge-right" onclick="dodge('right')">右 →</button>
     </div>
   </div>
-  <!-- GAME 3: Shout -->
   <div id="game3" style="display:none;">
     <canvas id="gymCanvas"></canvas>
     <div class="takaki-wrap" id="takakiWrap"></div>
@@ -252,8 +305,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
     </div>
   </div>
 </div>
-
-<!-- Results -->
 
 <div class="mini-overlay" id="clearOverlay">
   <div class="result-title">🎉 クリア！</div>
@@ -267,466 +318,185 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:'Noto Sans JP',sans
 </div>
 
 <script>
-// ============ CHARS DATA ============
-const CHARS = [
-  {id:'tamura',name:'田村航大',rarity:'vr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="70" width="44" height="45" rx="6" fill="#1a3a6a"/><rect x="42" y="60" width="16" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="45" rx="26" ry="27" fill="#f5c8a0"/><rect x="28" y="42" width="18" height="10" rx="5" fill="none" stroke="#FFD700" stroke-width="2.5"/><rect x="54" y="42" width="18" height="10" rx="5" fill="none" stroke="#FFD700" stroke-width="2.5"/><line x1="46" y1="46" x2="54" y2="46" stroke="#FFD700" stroke-width="2"/><ellipse cx="37" cy="46" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="63" cy="46" rx="4" ry="4" fill="#1a1a1a"/><circle cx="38" cy="45" r="1.2" fill="white"/><circle cx="64" cy="45" r="1.2" fill="white"/><ellipse cx="50" cy="22" rx="26" ry="10" fill="#2a1a0a"/><rect x="24" y="22" width="52" height="12" fill="#2a1a0a"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M42 59 Q50 65 58 59" stroke="#c07050" stroke-width="2" fill="none" stroke-linecap="round"/><polygon points="75,72 77,78 83,78 78,82 80,88 75,84 70,88 72,82 67,78 73,78" fill="#FFD700"/></svg>`},
-  {id:'kawamura',name:'河村優里',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#cc3366"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#1a1010"/><rect x="24" y="20" width="52" height="16" fill="#1a1010"/><rect x="24" y="20" width="10" height="65" rx="5" fill="#1a1010"/><rect x="66" y="20" width="10" height="65" rx="5" fill="#1a1010"/><ellipse cx="38" cy="42" rx="6" ry="6" fill="white"/><ellipse cx="62" cy="42" rx="6" ry="6" fill="white"/><ellipse cx="38" cy="43" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="62" cy="43" rx="4" ry="4" fill="#1a1a1a"/><circle cx="39" cy="41" r="1.3" fill="white"/><circle cx="63" cy="41" r="1.3" fill="white"/><ellipse cx="30" cy="50" rx="7" ry="4" fill="#ffb6c1" opacity=".5"/><ellipse cx="70" cy="50" rx="7" ry="4" fill="#ffb6c1" opacity=".5"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M42 58 Q50 64 58 58" stroke="#cc6688" stroke-width="2" fill="none"/></svg>`},
-  {id:'watanabe',name:'渡邊理那',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#9966cc"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#3a2a1a"/><rect x="24" y="20" width="52" height="14" fill="#3a2a1a"/><rect x="26" y="39" width="19" height="11" rx="5" fill="rgba(255,100,180,.3)" stroke="#ff69b4" stroke-width="2.5"/><rect x="55" y="39" width="19" height="11" rx="5" fill="rgba(255,100,180,.3)" stroke="#ff69b4" stroke-width="2.5"/><line x1="45" y1="44" x2="55" y2="44" stroke="#ff69b4" stroke-width="2"/><ellipse cx="35" cy="44" rx="4" ry="4" fill="#3a3a1a"/><ellipse cx="64" cy="44" rx="4" ry="4" fill="#3a3a1a"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M42 59 Q50 65 58 59" stroke="#cc6688" stroke-width="2" fill="none"/></svg>`},
-  {id:'hoshino_m',name:'星野百香',rarity:'sr',serif:'え、かいぃのくさぁいw',svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#ff9933"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#4a3020"/><rect x="24" y="20" width="52" height="14" fill="#4a3020"/><rect x="24" y="24" width="8" height="60" rx="4" fill="#4a3020"/><rect x="68" y="24" width="8" height="60" rx="4" fill="#4a3020"/><path d="M30 42 Q38 38 46 42" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M54 42 Q62 38 70 42" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M40 59 Q50 66 60 59" stroke="#cc7050" stroke-width="2" fill="none"/></svg>`},
-  {id:'ohashi',name:'大橋史信',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="38" ry="30" fill="#111111"/><text x="50" y="94" text-anchor="middle" font-size="14" font-weight="900" fill="white" font-family="monospace">0258</text><rect x="40" y="60" width="20" height="16" rx="3" fill="#f0b888"/><ellipse cx="50" cy="40" rx="30" ry="30" fill="#f0b888"/><ellipse cx="50" cy="16" rx="30" ry="12" fill="#1a1010"/><rect x="20" y="16" width="60" height="14" fill="#1a1010"/><ellipse cx="22" cy="30" rx="5" ry="10" fill="#1a1010"/><ellipse cx="78" cy="30" rx="5" ry="10" fill="#1a1010"/><ellipse cx="22" cy="45" rx="8" ry="6" fill="#e8a070" opacity=".6"/><ellipse cx="78" cy="45" rx="8" ry="6" fill="#e8a070" opacity=".6"/><ellipse cx="36" cy="42" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="64" cy="42" rx="5" ry="5" fill="#1a1a1a"/><circle cx="37" cy="40" r="1.5" fill="white"/><circle cx="65" cy="40" r="1.5" fill="white"/><path d="M39 57 Q50 64 61 57" stroke="#b06040" stroke-width="2.5" fill="none"/></svg>`},
-  {id:'takeishi',name:'竹石快',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#333"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="25" fill="#f5c8a0"/><ellipse cx="50" cy="22" rx="34" ry="26" fill="#1a1010"/><ellipse cx="28" cy="30" rx="16" ry="18" fill="#1a1010"/><ellipse cx="72" cy="30" rx="16" ry="18" fill="#1a1010"/><ellipse cx="37" cy="43" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="43" rx="5" ry="5" fill="#1a1a1a"/><circle cx="38" cy="41" r="1.5" fill="white"/><circle cx="64" cy="41" r="1.5" fill="white"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/></svg>`},
-  {id:'mitsumoto_grandpa',name:'三本和也のおじいちゃん',rarity:'sr',serif:'モルヒネでポックリ！',svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="#335577"/><polygon points="40,66 50,80 60,66 55,66 50,74 45,66" fill="#eeddcc"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#d4a070"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#d4a070"/><ellipse cx="50" cy="17" rx="22" ry="9" fill="#e8e0d0"/><rect x="28" y="17" width="44" height="10" fill="#e8e0d0"/><path d="M30,18 Q28,14 32,12" stroke="#e8e0d0" stroke-width="2.5" fill="none"/><path d="M50,15 Q50,10 53,8" stroke="#e8e0d0" stroke-width="2" fill="none"/><path d="M70,18 Q72,14 68,12" stroke="#e8e0d0" stroke-width="2.5" fill="none"/><path d="M28 44 Q32 40 36 44" stroke="#b07040" stroke-width="1.5" fill="none"/><path d="M64 44 Q68 40 72 44" stroke="#b07040" stroke-width="1.5" fill="none"/><path d="M34 32 Q42 28 50 32 Q58 28 66 32" stroke="#b07040" stroke-width="1.2" fill="none"/><path d="M30 55 Q40 52 50 55 Q60 52 70 55" stroke="#b07040" stroke-width="1" fill="none"/><path d="M30 42 Q36 39 42 42" stroke="#3a2a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M58 42 Q64 39 70 42" stroke="#3a2a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="52" rx="6" ry="4" fill="#c08050"/><path d="M36 58 Q50 68 64 58" stroke="#a06030" stroke-width="2.5" fill="none"/><ellipse cx="50" cy="65" rx="18" ry="8" fill="#e8e8e8"/><path d="M34,60 Q32,70 36,76" stroke="#e8e8e8" stroke-width="3" fill="none"/><path d="M50,64 Q48,73 50,78" stroke="#e8e8e8" stroke-width="3" fill="none"/><path d="M66,60 Q68,70 64,76" stroke="#e8e8e8" stroke-width="3" fill="none"/><g transform="rotate(-35,75,85)"><rect x="64" y="78" width="22" height="8" rx="3" fill="#ddeeff" stroke="#99bbdd" stroke-width="1"/><rect x="62" y="80" width="4" height="4" rx="1" fill="#aaccee"/><line x1="86" y1="82" x2="96" y2="82" stroke="#aaaaaa" stroke-width="2"/><rect x="66" y="79" width="12" height="6" rx="1" fill="#ff88aa" opacity=".7"/></g></svg>`},
-  {id:'matsumoto_yuki',name:'松本ゆうき',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 130" width="100" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="70" width="44" height="55" rx="6" fill="#2255aa"/><rect x="41" y="60" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="44" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="22" rx="24" ry="10" fill="#2a1a0a"/><rect x="26" y="22" width="48" height="12" fill="#2a1a0a"/><ellipse cx="50" cy="10" rx="22" ry="10" fill="rgba(100,180,255,.7)" stroke="#66aaff" stroke-width="1.5"/><ellipse cx="50" cy="8" rx="16" ry="4" fill="rgba(150,210,255,.5)"/><path d="M28,14 Q26,20 28,26" stroke="rgba(100,180,255,.6)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M72,14 Q74,20 72,26" stroke="rgba(100,180,255,.6)" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="27" cy="28" rx="3" ry="4" fill="rgba(100,180,255,.5)"/><ellipse cx="73" cy="28" rx="3" ry="4" fill="rgba(100,180,255,.5)"/><ellipse cx="37" cy="43" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="43" rx="5" ry="5" fill="#1a1a1a"/><circle cx="38" cy="41" r="1.5" fill="white"/><circle cx="64" cy="41" r="1.5" fill="white"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M42 58 Q46 56 50 58 Q54 56 58 58" stroke="#c07050" stroke-width="2" fill="none"/><ellipse cx="32" cy="48" rx="2" ry="3" fill="rgba(100,180,255,.6)"/><ellipse cx="68" cy="46" rx="2" ry="3" fill="rgba(100,180,255,.6)"/></svg>`},
-  {id:'ikeyama_yuya',name:'池山ゆうや',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="34" ry="28" fill="#c87840"/><ellipse cx="34" cy="80" rx="13" ry="16" fill="#b86830"/><ellipse cx="66" cy="80" rx="13" ry="16" fill="#b86830"/><ellipse cx="50" cy="82" rx="8" ry="6" fill="#b06020"/><ellipse cx="50" cy="92" rx="8" ry="5" fill="#b06020"/><text x="50" y="88" text-anchor="middle" font-size="20" font-weight="900" fill="#1a1a8a" font-family="serif" opacity=".9">愛</text><rect x="41" y="58" width="18" height="14" rx="3" fill="#c87840"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#c87840"/><ellipse cx="50" cy="18" rx="25" ry="10" fill="#1a1010"/><rect x="25" y="18" width="50" height="12" fill="#1a1010"/><polygon points="30,18 28,4 36,16" fill="#1a1010"/><polygon points="42,16 42,2 48,15" fill="#1a1010"/><polygon points="54,16 56,2 60,15" fill="#1a1010"/><polygon points="66,18 72,4 68,16" fill="#1a1010"/><ellipse cx="37" cy="42" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="42" rx="5.5" ry="5" fill="#1a1a1a"/><circle cx="38" cy="40" r="1.5" fill="white"/><circle cx="64" cy="40" r="1.5" fill="white"/><path d="M29 34 L41 38" stroke="#1a1010" stroke-width="3" stroke-linecap="round"/><path d="M71 34 L59 38" stroke="#1a1010" stroke-width="3" stroke-linecap="round"/><path d="M42 59 Q50 64 58 59" stroke="#885020" stroke-width="2.5" fill="none"/></svg>`},
-  {id:'inoue_wakuro',name:'井上わくろう',rarity:'sr',serif:null,svg:`<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="64" width="64" height="51" rx="6" fill="#333300"/><polygon points="36,64 50,82 64,64 58,64 50,76 42,64" fill="#eecc88"/><rect x="18" y="85" width="64" height="6" rx="3" fill="#886600"/><circle cx="50" cy="88" r="5" fill="#aa8800"/><rect x="41" y="54" width="18" height="14" rx="3" fill="#f0c890"/><ellipse cx="50" cy="38" rx="26" ry="28" fill="#f0c890"/><ellipse cx="50" cy="16" rx="26" ry="11" fill="#e8c080"/><rect x="24" y="16" width="52" height="12" fill="#e8c080"/><ellipse cx="38" cy="20" rx="10" ry="5" fill="rgba(255,255,220,.4)"/><path d="M30 40 Q37 36 44 40" stroke="#2a1a0a" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M56 40 Q63 36 70 40" stroke="#2a1a0a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="40" rx="7" ry="10" fill="#f0c890"/><ellipse cx="76" cy="40" rx="7" ry="10" fill="#f0c890"/><ellipse cx="24" cy="40" rx="4" ry="7" fill="#e0b070"/><ellipse cx="76" cy="40" rx="4" ry="7" fill="#e0b070"/><ellipse cx="50" cy="50" rx="4" ry="3" fill="#d4a060"/><path d="M38 57 Q50 64 62 57" stroke="#b07040" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28,95 Q50,115 72,95" stroke="#886600" stroke-width="2" fill="none"/><circle cx="28" cy="95" r="3" fill="#aa8800"/><circle cx="50" cy="115" r="3" fill="#aa8800"/><circle cx="72" cy="95" r="3" fill="#aa8800"/></svg>`},
-  {id:'matsumoto',name:'松本稜太朗',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="85" rx="28" ry="28" fill="#8B6914"/><ellipse cx="50" cy="42" rx="26" ry="26" fill="#8B6914"/><ellipse cx="50" cy="52" rx="18" ry="14" fill="#d4a574"/><ellipse cx="24" cy="40" rx="8" ry="10" fill="#8B6914"/><ellipse cx="76" cy="40" rx="8" ry="10" fill="#8B6914"/><ellipse cx="24" cy="40" rx="5" ry="7" fill="#d4a574"/><ellipse cx="76" cy="40" rx="5" ry="7" fill="#d4a574"/><ellipse cx="38" cy="38" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="62" cy="38" rx="5" ry="5" fill="#1a1a1a"/><circle cx="39" cy="37" r="1.5" fill="white"/><circle cx="63" cy="37" r="1.5" fill="white"/><ellipse cx="45" cy="50" rx="3" ry="2" fill="#5a3a0a"/><ellipse cx="55" cy="50" rx="3" ry="2" fill="#5a3a0a"/><path d="M40 56 Q50 62 60 56" stroke="#5a3a0a" stroke-width="2" fill="none"/><ellipse cx="18" cy="88" rx="12" ry="6" fill="#4488cc" transform="rotate(-20,18,88)"/><polygon points="6,84 2,78 6,90" fill="#3366aa"/><circle cx="82" cy="88" r="10" fill="#111"/><circle cx="82" cy="88" r="4" fill="#333"/></svg>`},
-  {id:'nakazawa',name:'中沢承希',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="85" rx="28" ry="25" fill="#cc4400"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="36" cy="20" rx="6" ry="10" fill="#cc0000"/><ellipse cx="50" cy="16" rx="6" ry="10" fill="#cc0000"/><ellipse cx="64" cy="20" rx="6" ry="10" fill="#cc0000"/><polygon points="42,53 50,58 58,53 50,48" fill="#ffaa00"/><ellipse cx="36" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="64" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="36" cy="40" rx="3.5" ry="3.5" fill="#cc4400"/><ellipse cx="64" cy="40" rx="3.5" ry="3.5" fill="#cc4400"/><circle cx="37" cy="39" r="1.2" fill="white"/><circle cx="65" cy="39" r="1.2" fill="white"/><path d="M22,75 Q15,65 18,55 Q22,48 30,52 Q35,60 30,75" fill="#aa3300"/><path d="M78,75 Q85,65 82,55 Q78,48 70,52 Q65,60 70,75" fill="#aa3300"/><ellipse cx="50" cy="22" rx="26" ry="10" fill="#1a1010"/><rect x="24" y="22" width="52" height="10" fill="#1a1010"/><ellipse cx="50" cy="62" rx="8" ry="6" fill="#cc0000"/></svg>`},
-  {id:'murakami',name:'村上正之輔',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#cc3333"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2a1a"/><rect x="26" y="20" width="48" height="12" fill="#3a2a1a"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/><rect x="58" y="72" width="36" height="24" fill="#da251d" rx="2"/><polygon points="76,76 78,82 84,82 79,86 81,92 76,88 71,92 73,86 68,82 74,82" fill="#ffff00"/><rect x="56" y="68" width="3" height="30" fill="#888"/></svg>`},
-  {id:'inoue_y',name:'井上侑士',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#1a1a3a"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="20" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/><polygon points="10,30 15,50 20,50 14,75 25,48 20,48 26,30" fill="#FFD700" opacity=".9"/><polygon points="42,10 47,30 52,30 46,55 57,28 52,28 58,10" fill="#FFD700"/><polygon points="74,30 79,50 84,50 78,75 89,48 84,48 90,30" fill="#FFD700" opacity=".9"/></svg>`},
-  {id:'ikeyama',name:'池山丈登',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="90" rx="28" ry="25" fill="#8855aa"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="26" ry="13" fill="#eeeeee"/><rect x="24" y="18" width="52" height="14" fill="#eeeeee"/><ellipse cx="24" cy="32" rx="6" ry="14" fill="#eeeeee"/><ellipse cx="76" cy="32" rx="6" ry="14" fill="#eeeeee"/><path d="M34 40 Q38 43 42 40" stroke="#1a1a1a" stroke-width="2" fill="none"/><path d="M58 40 Q62 43 66 40" stroke="#1a1a1a" stroke-width="2" fill="none"/><path d="M40 59 Q50 66 60 59" stroke="#b06040" stroke-width="2.5" fill="none"/><rect x="72" y="70" width="4" height="48" rx="2" fill="#8B5A2B"/></svg>`},
-  {id:'sakaue',name:'坂上陽向',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#cc0000"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="20" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/><rect x="30" y="72" width="18" height="12" fill="#ff0000" rx="2"/><rect x="35" y="72" width="8" height="12" fill="white"/><text x="39" y="81" text-anchor="middle" font-size="8" fill="#ff0000">🍁</text><rect x="52" y="72" width="18" height="12" fill="#cc0000" rx="2"/><text x="61" y="81" text-anchor="middle" font-size="5.5" fill="white" font-weight="900">UNIQLO</text></svg>`},
-  {id:'sato',name:'佐藤桂太',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="28" ry="27" fill="#885522"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#e8b080"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#e8b080"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#4a3010"/><rect x="26" y="20" width="48" height="12" fill="#4a3010"/><path d="M34 40 Q38 43 42 40" stroke="#2a2a2a" stroke-width="2" fill="none"/><path d="M58 40 Q62 43 66 40" stroke="#2a2a2a" stroke-width="2" fill="none"/><path d="M40 59 Q50 58 60 59" stroke="#8a5030" stroke-width="2" fill="none"/><ellipse cx="20" cy="90" rx="10" ry="8" fill="#8B5A2B"/><text x="20" y="94" text-anchor="middle" font-size="10" fill="#664411">¥0</text></svg>`},
-  {id:'kurashige',name:'倉重太一',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="white" stroke="#ddd" stroke-width="1"/><rect x="44" y="66" width="12" height="20" fill="#88aaff"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#2a2a2a"/><rect x="26" y="18" width="48" height="12" fill="#2a2a2a"/><rect x="28" y="37" width="17" height="10" rx="5" fill="none" stroke="#333" stroke-width="2"/><rect x="55" y="37" width="17" height="10" rx="5" fill="none" stroke="#333" stroke-width="2"/><line x1="45" y1="42" x2="55" y2="42" stroke="#333" stroke-width="2"/><ellipse cx="36" cy="42" rx="4" ry="4" fill="#2a2a2a"/><ellipse cx="63" cy="42" rx="4" ry="4" fill="#2a2a2a"/><path d="M42 57 Q50 63 58 57" stroke="#c07050" stroke-width="2" fill="none"/><rect x="64" y="76" width="18" height="22" rx="2" fill="#f0e8d0" stroke="#ccc" stroke-width="1"/><rect x="66" y="79" width="14" height="2" fill="#888"/><rect x="66" y="83" width="14" height="2" fill="#888"/></svg>`},
-  {id:'saito_a',name:'斎藤葵',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#ff6699"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="20" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="40" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="27" cy="50" rx="8" ry="5" fill="#ffb6c1" opacity=".6"/><ellipse cx="73" cy="50" rx="8" ry="5" fill="#ffb6c1" opacity=".6"/><path d="M33 56 Q50 72 67 56" stroke="#c07050" stroke-width="2.5" fill="#ff9999"/><rect x="38" y="58" width="7" height="6" rx="2" fill="white"/><rect x="46.5" y="58" width="7" height="7" rx="2" fill="white"/><rect x="55" y="58" width="7" height="6" rx="2" fill="white"/></svg>`},
-  {id:'saito_n',name:'斎藤のぞみ',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="65" rx="40" ry="38" fill="#cc4466"/><ellipse cx="38" cy="60" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="62" cy="60" rx="5" ry="5" fill="#1a1a1a"/><circle cx="39" cy="58" r="1.5" fill="white"/><circle cx="63" cy="58" r="1.5" fill="white"/><path d="M41 72 Q50 78 59 72" stroke="#aa2244" stroke-width="2" fill="none"/><text x="50" y="110" text-anchor="middle" font-size="7" fill="#880022" font-family="sans-serif">梅干し</text></svg>`},
-  {id:'hoshino_k',name:'星野圭吾',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="90" rx="26" ry="24" fill="#44cc66"/><ellipse cx="50" cy="38" rx="34" ry="36" fill="#44cc66"/><ellipse cx="30" cy="32" rx="9" ry="9" fill="white"/><ellipse cx="50" cy="26" rx="9" ry="9" fill="white"/><ellipse cx="70" cy="32" rx="9" ry="9" fill="white"/><ellipse cx="30" cy="32" rx="5" ry="5" fill="#ff2200"/><ellipse cx="50" cy="26" rx="5" ry="5" fill="#ff2200"/><ellipse cx="70" cy="32" rx="5" ry="5" fill="#ff2200"/><circle cx="31" cy="31" r="1.5" fill="white"/><circle cx="51" cy="25" r="1.5" fill="white"/><circle cx="71" cy="31" r="1.5" fill="white"/><path d="M38 56 Q50 62 62 56" stroke="#1a5a1a" stroke-width="3" fill="none"/></svg>`},
-  {id:'shibuya',name:'渋谷俊樹',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 5,90 95,90" fill="white" stroke="#ddd" stroke-width="2"/><rect x="18" y="62" width="64" height="28" rx="4" fill="#1a2a1a"/><ellipse cx="38" cy="45" rx="6" ry="6" fill="#1a1a1a"/><ellipse cx="62" cy="45" rx="6" ry="6" fill="#1a1a1a"/><circle cx="39" cy="43" r="1.8" fill="white"/><circle cx="63" cy="43" r="1.8" fill="white"/><path d="M40 58 Q50 64 60 58" stroke="#888" stroke-width="2.5" fill="none"/><rect x="30" y="88" width="14" height="22" rx="6" fill="white"/><rect x="56" y="88" width="14" height="22" rx="6" fill="white"/></svg>`},
-  {id:'yokosaka',name:'横坂祐人',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#2244aa"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#2a1a0a"/><rect x="26" y="20" width="48" height="12" fill="#2a1a0a"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#1a1a1a"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/><rect x="14" y="75" width="14" height="36" rx="7" fill="#f5c8a0"/><ellipse cx="21" cy="100" rx="6" ry="4" fill="#cc6644" opacity=".7"/></svg>`},
-  {id:'yasunaka',name:'安中忠政',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="66" width="48" height="49" rx="6" fill="#555"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="38" rx="26" ry="28" fill="#f5c8a0"/><ellipse cx="50" cy="14" rx="24" ry="10" fill="#e8e0d0"/><rect x="26" y="14" width="48" height="12" fill="#e8e0d0"/><rect x="26" y="34" width="19" height="11" rx="4" fill="rgba(200,220,255,.3)" stroke="#333" stroke-width="2.5"/><rect x="55" y="34" width="19" height="11" rx="4" fill="rgba(200,220,255,.3)" stroke="#333" stroke-width="2.5"/><line x1="45" y1="39" x2="55" y2="39" stroke="#333" stroke-width="2"/><ellipse cx="35" cy="39" rx="4.5" ry="4.5" fill="#1a1a1a"/><ellipse cx="64" cy="39" rx="4.5" ry="4.5" fill="#1a1a1a"/><path d="M26 32 L44 36" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/><path d="M74 32 L56 36" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/><path d="M38 57 Q50 52 62 57" stroke="#aa2222" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`},
-  {id:'hasegawa_r',name:'長谷川亮',rarity:'c',serif:'おいぃしのぶぅ',svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="66" width="52" height="49" rx="6" fill="#111"/><polygon points="42,66 50,80 58,66 54,66 50,74 46,66" fill="white"/><rect x="48" y="66" width="4" height="30" fill="#cc0000"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="18" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="39" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="39" rx="5" ry="5" fill="#1a1a1a"/><path d="M30 32 Q37 29 44 32" stroke="#1a1a1a" stroke-width="2.5" fill="none"/><path d="M56 32 Q63 29 70 32" stroke="#1a1a1a" stroke-width="2.5" fill="none"/><path d="M41 57 Q50 62 59 57" stroke="#c07050" stroke-width="2" fill="none"/></svg>`},
-  {id:'sudo',name:'須藤さつき',rarity:'c',serif:'たけいしかぁああい！！',svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="#336699"/><polygon points="40,66 50,79 60,66 56,66 50,74 44,66" fill="white"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="26" ry="13" fill="#4a3020"/><rect x="24" y="18" width="52" height="14" fill="#4a3020"/><ellipse cx="24" cy="30" rx="7" ry="12" fill="#4a3020"/><ellipse cx="76" cy="30" rx="7" ry="12" fill="#4a3020"/><ellipse cx="37" cy="40" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="50" cy="58" rx="10" ry="8" fill="#cc2222"/><rect x="42" y="54" width="6" height="5" rx="1" fill="white"/><rect x="52" y="54" width="6" height="5" rx="1" fill="white"/></svg>`},
-  {id:'inoue_h',name:'井上北斗',rarity:'c',serif:'たったったったしねやぁあ！',svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="66" width="52" height="49" rx="6" fill="#111"/><polygon points="42,66 50,80 58,66 54,66 50,74 46,66" fill="white"/><rect x="48" y="66" width="4" height="30" fill="#003399"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="18" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="63" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="37" cy="40" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="4" ry="4" fill="#1a1a1a"/><path d="M28 32 L42 37" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><path d="M72 32 L58 37" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="50" cy="59" rx="9" ry="7" fill="#cc1111"/><rect x="43" y="55" width="5" height="5" rx="1" fill="ivory"/><rect x="52" y="55" width="5" height="5" rx="1" fill="ivory"/></svg>`},
-  {id:'hasegawa_t',name:'長谷川拓馬',rarity:'c',serif:null,svg:`<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="66" width="48" height="49" rx="6" fill="#228822"/><rect x="36" y="66" width="28" height="49" fill="#33aa33"/><rect x="44" y="50" width="12" height="18" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="38" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="17" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="17" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="38" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="38" rx="5" ry="5" fill="#1a1a1a"/><path d="M40 57 Q50 64 60 57" stroke="#c07050" stroke-width="2.5" fill="none"/><rect x="64" y="76" width="10" height="30" rx="4" fill="#ff6633"/><path d="M60,80 Q64,74 68,72 Q72,74 76,80" stroke="#228822" stroke-width="3" fill="#228822"/></svg>`}
-];
+// ============ CHARS ============
+const CHARS=[{id:'tamura',name:'田村航大',rarity:'vr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="70" width="44" height="45" rx="6" fill="#1a3a6a"/><rect x="42" y="60" width="16" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="45" rx="26" ry="27" fill="#f5c8a0"/><rect x="28" y="42" width="18" height="10" rx="5" fill="none" stroke="#FFD700" stroke-width="2.5"/><rect x="54" y="42" width="18" height="10" rx="5" fill="none" stroke="#FFD700" stroke-width="2.5"/><line x1="46" y1="46" x2="54" y2="46" stroke="#FFD700" stroke-width="2"/><ellipse cx="37" cy="46" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="63" cy="46" rx="4" ry="4" fill="#1a1a1a"/><circle cx="38" cy="45" r="1.2" fill="white"/><circle cx="64" cy="45" r="1.2" fill="white"/><ellipse cx="50" cy="22" rx="26" ry="10" fill="#2a1a0a"/><rect x="24" y="22" width="52" height="12" fill="#2a1a0a"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M42 59 Q50 65 58 59" stroke="#c07050" stroke-width="2" fill="none" stroke-linecap="round"/><polygon points="75,72 77,78 83,78 78,82 80,88 75,84 70,88 72,82 67,78 73,78" fill="#FFD700"/></svg>'},{id:'kawamura',name:'河村優里',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#cc3366"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#1a1010"/><rect x="24" y="20" width="52" height="16" fill="#1a1010"/><rect x="24" y="20" width="10" height="65" rx="5" fill="#1a1010"/><rect x="66" y="20" width="10" height="65" rx="5" fill="#1a1010"/><ellipse cx="38" cy="42" rx="6" ry="6" fill="white"/><ellipse cx="62" cy="42" rx="6" ry="6" fill="white"/><ellipse cx="38" cy="43" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="62" cy="43" rx="4" ry="4" fill="#1a1a1a"/><circle cx="39" cy="41" r="1.3" fill="white"/><circle cx="63" cy="41" r="1.3" fill="white"/><ellipse cx="30" cy="50" rx="7" ry="4" fill="#ffb6c1" opacity=".5"/><ellipse cx="70" cy="50" rx="7" ry="4" fill="#ffb6c1" opacity=".5"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M42 58 Q50 64 58 58" stroke="#cc6688" stroke-width="2" fill="none"/></svg>'},{id:'watanabe',name:'渡邊理那',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#9966cc"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#3a2a1a"/><rect x="24" y="20" width="52" height="14" fill="#3a2a1a"/><rect x="26" y="39" width="19" height="11" rx="5" fill="rgba(255,100,180,.3)" stroke="#ff69b4" stroke-width="2.5"/><rect x="55" y="39" width="19" height="11" rx="5" fill="rgba(255,100,180,.3)" stroke="#ff69b4" stroke-width="2.5"/><line x1="45" y1="44" x2="55" y2="44" stroke="#ff69b4" stroke-width="2"/><ellipse cx="35" cy="44" rx="4" ry="4" fill="#3a3a1a"/><ellipse cx="64" cy="44" rx="4" ry="4" fill="#3a3a1a"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M42 59 Q50 65 58 59" stroke="#cc6688" stroke-width="2" fill="none"/></svg>'},{id:'hoshino_m',name:'星野百香',rarity:'sr',serif:'え、かいぃのくさぁいw',svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#ff9933"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="26" ry="11" fill="#4a3020"/><rect x="24" y="20" width="52" height="14" fill="#4a3020"/><rect x="24" y="24" width="8" height="60" rx="4" fill="#4a3020"/><rect x="68" y="24" width="8" height="60" rx="4" fill="#4a3020"/><path d="M30 42 Q38 38 46 42" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M54 42 Q62 38 70 42" stroke="#1a1a1a" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M40 59 Q50 66 60 59" stroke="#cc7050" stroke-width="2" fill="none"/></svg>'},{id:'ohashi',name:'大橋史信',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="38" ry="30" fill="#111111"/><text x="50" y="94" text-anchor="middle" font-size="14" font-weight="900" fill="white" font-family="monospace">0258</text><rect x="40" y="60" width="20" height="16" rx="3" fill="#f0b888"/><ellipse cx="50" cy="40" rx="30" ry="30" fill="#f0b888"/><ellipse cx="50" cy="16" rx="30" ry="12" fill="#1a1010"/><rect x="20" y="16" width="60" height="14" fill="#1a1010"/><ellipse cx="36" cy="42" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="64" cy="42" rx="5" ry="5" fill="#1a1a1a"/><circle cx="37" cy="40" r="1.5" fill="white"/><circle cx="65" cy="40" r="1.5" fill="white"/><path d="M39 57 Q50 64 61 57" stroke="#b06040" stroke-width="2.5" fill="none"/></svg>'},{id:'takeishi',name:'竹石快',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#333"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="25" fill="#f5c8a0"/><ellipse cx="50" cy="22" rx="34" ry="26" fill="#1a1010"/><ellipse cx="28" cy="30" rx="16" ry="18" fill="#1a1010"/><ellipse cx="72" cy="30" rx="16" ry="18" fill="#1a1010"/><ellipse cx="37" cy="43" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="43" rx="5" ry="5" fill="#1a1a1a"/><circle cx="38" cy="41" r="1.5" fill="white"/><circle cx="64" cy="41" r="1.5" fill="white"/><ellipse cx="50" cy="52" rx="3" ry="2" fill="#e0a878"/><path d="M41 58 Q50 64 59 58" stroke="#c07050" stroke-width="2" fill="none"/></svg>'},{id:'mitsumoto_grandpa',name:'三本和也のおじいちゃん',rarity:'sr',serif:'モルヒネでポックリ！',svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="#335577"/><polygon points="40,66 50,80 60,66 55,66 50,74 45,66" fill="#eeddcc"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#d4a070"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#d4a070"/><ellipse cx="50" cy="17" rx="22" ry="9" fill="#e8e0d0"/><rect x="28" y="17" width="44" height="10" fill="#e8e0d0"/><path d="M28 44 Q32 40 36 44" stroke="#b07040" stroke-width="1.5" fill="none"/><path d="M64 44 Q68 40 72 44" stroke="#b07040" stroke-width="1.5" fill="none"/><path d="M34 32 Q42 28 50 32 Q58 28 66 32" stroke="#b07040" stroke-width="1.2" fill="none"/><path d="M30 42 Q36 39 42 42" stroke="#3a2a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M58 42 Q64 39 70 42" stroke="#3a2a1a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="52" rx="6" ry="4" fill="#c08050"/><path d="M36 58 Q50 68 64 58" stroke="#a06030" stroke-width="2.5" fill="none"/><ellipse cx="50" cy="65" rx="18" ry="8" fill="#e8e8e8"/><g transform="rotate(-35,75,85)"><rect x="64" y="78" width="22" height="8" rx="3" fill="#ddeeff" stroke="#99bbdd" stroke-width="1"/><rect x="62" y="80" width="4" height="4" rx="1" fill="#aaccee"/><line x1="86" y1="82" x2="96" y2="82" stroke="#aaaaaa" stroke-width="2"/><rect x="66" y="79" width="12" height="6" rx="1" fill="#ff88aa" opacity=".7"/></g></svg>'},{id:'matsumoto_yuki',name:'松本ゆうき',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 130" width="100" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="70" width="44" height="55" rx="6" fill="#2255aa"/><rect x="41" y="60" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="44" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="22" rx="24" ry="10" fill="#2a1a0a"/><rect x="26" y="22" width="48" height="12" fill="#2a1a0a"/><ellipse cx="50" cy="10" rx="22" ry="10" fill="rgba(100,180,255,.7)" stroke="#66aaff" stroke-width="1.5"/><ellipse cx="50" cy="8" rx="16" ry="4" fill="rgba(150,210,255,.5)"/><path d="M28,14 Q26,20 28,26" stroke="rgba(100,180,255,.6)" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M72,14 Q74,20 72,26" stroke="rgba(100,180,255,.6)" stroke-width="2" fill="none" stroke-linecap="round"/><ellipse cx="37" cy="43" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="43" rx="5" ry="5" fill="#1a1a1a"/><circle cx="38" cy="41" r="1.5" fill="white"/><circle cx="64" cy="41" r="1.5" fill="white"/><ellipse cx="50" cy="53" rx="3" ry="2" fill="#e0a878"/><path d="M42 58 Q46 56 50 58 Q54 56 58 58" stroke="#c07050" stroke-width="2" fill="none"/></svg>'},{id:'ikeyama_yuya',name:'池山ゆうや',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="34" ry="28" fill="#c87840"/><ellipse cx="34" cy="80" rx="13" ry="16" fill="#b86830"/><ellipse cx="66" cy="80" rx="13" ry="16" fill="#b86830"/><text x="50" y="88" text-anchor="middle" font-size="20" font-weight="900" fill="#1a1a8a" font-family="serif" opacity=".9">愛</text><rect x="41" y="58" width="18" height="14" rx="3" fill="#c87840"/><ellipse cx="50" cy="42" rx="25" ry="27" fill="#c87840"/><ellipse cx="50" cy="18" rx="25" ry="10" fill="#1a1010"/><rect x="25" y="18" width="50" height="12" fill="#1a1010"/><polygon points="30,18 28,4 36,16" fill="#1a1010"/><polygon points="42,16 42,2 48,15" fill="#1a1010"/><polygon points="54,16 56,2 60,15" fill="#1a1010"/><polygon points="66,18 72,4 68,16" fill="#1a1010"/><ellipse cx="37" cy="42" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="42" rx="5.5" ry="5" fill="#1a1a1a"/><path d="M29 34 L41 38" stroke="#1a1010" stroke-width="3" stroke-linecap="round"/><path d="M71 34 L59 38" stroke="#1a1010" stroke-width="3" stroke-linecap="round"/><path d="M42 59 Q50 64 58 59" stroke="#885020" stroke-width="2.5" fill="none"/></svg>'},{id:'inoue_wakuro',name:'井上わくろう',rarity:'sr',serif:null,svg:'<svg viewBox="0 0 100 120" width="110" height="130" xmlns="http://www.w3.org/2000/svg"><rect x="18" y="64" width="64" height="51" rx="6" fill="#333300"/><polygon points="36,64 50,82 64,64 58,64 50,76 42,64" fill="#eecc88"/><rect x="18" y="85" width="64" height="6" rx="3" fill="#886600"/><circle cx="50" cy="88" r="5" fill="#aa8800"/><rect x="41" y="54" width="18" height="14" rx="3" fill="#f0c890"/><ellipse cx="50" cy="38" rx="26" ry="28" fill="#f0c890"/><ellipse cx="50" cy="16" rx="26" ry="11" fill="#e8c080"/><rect x="24" y="16" width="52" height="12" fill="#e8c080"/><path d="M30 40 Q37 36 44 40" stroke="#2a1a0a" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M56 40 Q63 36 70 40" stroke="#2a1a0a" stroke-width="2.5" fill="none" stroke-linecap="round"/><ellipse cx="24" cy="40" rx="7" ry="10" fill="#f0c890"/><ellipse cx="76" cy="40" rx="7" ry="10" fill="#f0c890"/><ellipse cx="50" cy="50" rx="4" ry="3" fill="#d4a060"/><path d="M38 57 Q50 64 62 57" stroke="#b07040" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M28,95 Q50,115 72,95" stroke="#886600" stroke-width="2" fill="none"/><circle cx="28" cy="95" r="3" fill="#aa8800"/><circle cx="50" cy="115" r="3" fill="#aa8800"/><circle cx="72" cy="95" r="3" fill="#aa8800"/></svg>'},{id:'matsumoto',name:'松本稜太朗',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="85" rx="28" ry="28" fill="#8B6914"/><ellipse cx="50" cy="42" rx="26" ry="26" fill="#8B6914"/><ellipse cx="50" cy="52" rx="18" ry="14" fill="#d4a574"/><ellipse cx="24" cy="40" rx="8" ry="10" fill="#8B6914"/><ellipse cx="76" cy="40" rx="8" ry="10" fill="#8B6914"/><ellipse cx="24" cy="40" rx="5" ry="7" fill="#d4a574"/><ellipse cx="76" cy="40" rx="5" ry="7" fill="#d4a574"/><ellipse cx="38" cy="38" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="62" cy="38" rx="5" ry="5" fill="#1a1a1a"/><circle cx="39" cy="37" r="1.5" fill="white"/><circle cx="63" cy="37" r="1.5" fill="white"/><path d="M40 56 Q50 62 60 56" stroke="#5a3a0a" stroke-width="2" fill="none"/></svg>'},{id:'nakazawa',name:'中沢承希',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="85" rx="28" ry="25" fill="#cc4400"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="36" cy="20" rx="6" ry="10" fill="#cc0000"/><ellipse cx="50" cy="16" rx="6" ry="10" fill="#cc0000"/><ellipse cx="64" cy="20" rx="6" ry="10" fill="#cc0000"/><polygon points="42,53 50,58 58,53 50,48" fill="#ffaa00"/><ellipse cx="36" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="64" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="36" cy="40" rx="3.5" ry="3.5" fill="#cc4400"/><ellipse cx="64" cy="40" rx="3.5" ry="3.5" fill="#cc4400"/><ellipse cx="50" cy="62" rx="8" ry="6" fill="#cc0000"/></svg>'},{id:'murakami',name:'村上正之輔',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#cc3333"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2a1a"/><rect x="26" y="20" width="48" height="12" fill="#3a2a1a"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#2a2a2a"/><rect x="58" y="72" width="36" height="24" fill="#da251d" rx="2"/><polygon points="76,76 78,82 84,82 79,86 81,92 76,88 71,92 73,86 68,82 74,82" fill="#ffff00"/><rect x="56" y="68" width="3" height="30" fill="#888"/></svg>'},{id:'inoue_y',name:'井上侑士',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#1a1a3a"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="20" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#1a1a1a"/><polygon points="10,30 15,50 20,50 14,75 25,48 20,48 26,30" fill="#FFD700" opacity=".9"/><polygon points="42,10 47,30 52,30 46,55 57,28 52,28 58,10" fill="#FFD700"/><polygon points="74,30 79,50 84,50 78,75 89,48 84,48 90,30" fill="#FFD700" opacity=".9"/></svg>'},{id:'ikeyama',name:'池山丈登',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="90" rx="28" ry="25" fill="#8855aa"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="26" ry="13" fill="#eeeeee"/><rect x="24" y="18" width="52" height="14" fill="#eeeeee"/><ellipse cx="24" cy="32" rx="6" ry="14" fill="#eeeeee"/><ellipse cx="76" cy="32" rx="6" ry="14" fill="#eeeeee"/><path d="M34 40 Q38 43 42 40" stroke="#1a1a1a" stroke-width="2" fill="none"/><path d="M58 40 Q62 43 66 40" stroke="#1a1a1a" stroke-width="2" fill="none"/><path d="M40 59 Q50 66 60 59" stroke="#b06040" stroke-width="2.5" fill="none"/><rect x="72" y="70" width="4" height="48" rx="2" fill="#8B5A2B"/></svg>'},{id:'sakaue',name:'坂上陽向',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#cc0000"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="20" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#2a2a2a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#2a2a2a"/><rect x="30" y="72" width="18" height="12" fill="#ff0000" rx="2"/><rect x="35" y="72" width="8" height="12" fill="white"/><rect x="52" y="72" width="18" height="12" fill="#cc0000" rx="2"/><text x="61" y="81" text-anchor="middle" font-size="5.5" fill="white" font-weight="900">UNIQLO</text></svg>'},{id:'sato',name:'佐藤桂太',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="88" rx="28" ry="27" fill="#885522"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#e8b080"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#e8b080"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#4a3010"/><rect x="26" y="20" width="48" height="12" fill="#4a3010"/><path d="M34 40 Q38 43 42 40" stroke="#2a2a2a" stroke-width="2" fill="none"/><path d="M58 40 Q62 43 66 40" stroke="#2a2a2a" stroke-width="2" fill="none"/><text x="20" y="94" text-anchor="middle" font-size="10" fill="#664411">¥0</text></svg>'},{id:'kurashige',name:'倉重太一',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="white" stroke="#ddd" stroke-width="1"/><rect x="44" y="66" width="12" height="20" fill="#88aaff"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#2a2a2a"/><rect x="26" y="18" width="48" height="12" fill="#2a2a2a"/><rect x="28" y="37" width="17" height="10" rx="5" fill="none" stroke="#333" stroke-width="2"/><rect x="55" y="37" width="17" height="10" rx="5" fill="none" stroke="#333" stroke-width="2"/><line x1="45" y1="42" x2="55" y2="42" stroke="#333" stroke-width="2"/><ellipse cx="36" cy="42" rx="4" ry="4" fill="#2a2a2a"/><ellipse cx="63" cy="42" rx="4" ry="4" fill="#2a2a2a"/><path d="M42 57 Q50 63 58 57" stroke="#c07050" stroke-width="2" fill="none"/></svg>'},{id:'saito_a',name:'斎藤葵',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="68" width="48" height="47" rx="6" fill="#ff6699"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="20" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="40" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="27" cy="50" rx="8" ry="5" fill="#ffb6c1" opacity=".6"/><ellipse cx="73" cy="50" rx="8" ry="5" fill="#ffb6c1" opacity=".6"/><path d="M33 56 Q50 72 67 56" stroke="#c07050" stroke-width="2.5" fill="#ff9999"/><rect x="38" y="58" width="7" height="6" rx="2" fill="white"/><rect x="46.5" y="58" width="7" height="7" rx="2" fill="white"/><rect x="55" y="58" width="7" height="6" rx="2" fill="white"/></svg>'},{id:'saito_n',name:'斎藤のぞみ',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="65" rx="40" ry="38" fill="#cc4466"/><ellipse cx="38" cy="60" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="62" cy="60" rx="5" ry="5" fill="#1a1a1a"/><circle cx="39" cy="58" r="1.5" fill="white"/><circle cx="63" cy="58" r="1.5" fill="white"/><path d="M41 72 Q50 78 59 72" stroke="#aa2244" stroke-width="2" fill="none"/><text x="50" y="110" text-anchor="middle" font-size="7" fill="#880022" font-family="sans-serif">梅干し</text></svg>'},{id:'hoshino_k',name:'星野圭吾',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><ellipse cx="50" cy="90" rx="26" ry="24" fill="#44cc66"/><ellipse cx="50" cy="38" rx="34" ry="36" fill="#44cc66"/><ellipse cx="30" cy="32" rx="9" ry="9" fill="white"/><ellipse cx="50" cy="26" rx="9" ry="9" fill="white"/><ellipse cx="70" cy="32" rx="9" ry="9" fill="white"/><ellipse cx="30" cy="32" rx="5" ry="5" fill="#ff2200"/><ellipse cx="50" cy="26" rx="5" ry="5" fill="#ff2200"/><ellipse cx="70" cy="32" rx="5" ry="5" fill="#ff2200"/><path d="M38 56 Q50 62 62 56" stroke="#1a5a1a" stroke-width="3" fill="none"/></svg>'},{id:'shibuya',name:'渋谷俊樹',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><polygon points="50,5 5,90 95,90" fill="white" stroke="#ddd" stroke-width="2"/><rect x="18" y="62" width="64" height="28" rx="4" fill="#1a2a1a"/><ellipse cx="38" cy="45" rx="6" ry="6" fill="#1a1a1a"/><ellipse cx="62" cy="45" rx="6" ry="6" fill="#1a1a1a"/><path d="M40 58 Q50 64 60 58" stroke="#888" stroke-width="2.5" fill="none"/><rect x="30" y="88" width="14" height="22" rx="6" fill="white"/><rect x="56" y="88" width="14" height="22" rx="6" fill="white"/></svg>'},{id:'yokosaka',name:'横坂祐人',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="28" y="68" width="44" height="47" rx="6" fill="#2244aa"/><rect x="41" y="58" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="42" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="20" rx="24" ry="10" fill="#2a1a0a"/><rect x="26" y="20" width="48" height="12" fill="#2a1a0a"/><ellipse cx="37" cy="41" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="41" rx="5" ry="5" fill="#1a1a1a"/><rect x="14" y="75" width="14" height="36" rx="7" fill="#f5c8a0"/><ellipse cx="21" cy="100" rx="6" ry="4" fill="#cc6644" opacity=".7"/></svg>'},{id:'yasunaka',name:'安中忠政',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="66" width="48" height="49" rx="6" fill="#555"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="38" rx="26" ry="28" fill="#f5c8a0"/><ellipse cx="50" cy="14" rx="24" ry="10" fill="#e8e0d0"/><rect x="26" y="14" width="48" height="12" fill="#e8e0d0"/><rect x="26" y="34" width="19" height="11" rx="4" fill="rgba(200,220,255,.3)" stroke="#333" stroke-width="2.5"/><rect x="55" y="34" width="19" height="11" rx="4" fill="rgba(200,220,255,.3)" stroke="#333" stroke-width="2.5"/><ellipse cx="35" cy="39" rx="4.5" ry="4.5" fill="#1a1a1a"/><ellipse cx="64" cy="39" rx="4.5" ry="4.5" fill="#1a1a1a"/><path d="M26 32 L44 36" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/><path d="M74 32 L56 36" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/><path d="M38 57 Q50 52 62 57" stroke="#aa2222" stroke-width="3" fill="none" stroke-linecap="round"/></svg>'},{id:'hasegawa_r',name:'長谷川亮',rarity:'c',serif:'おいぃしのぶぅ',svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="66" width="52" height="49" rx="6" fill="#111"/><polygon points="42,66 50,80 58,66 54,66 50,74 46,66" fill="white"/><rect x="48" y="66" width="4" height="30" fill="#cc0000"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="18" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="39" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="39" rx="5" ry="5" fill="#1a1a1a"/><path d="M41 57 Q50 62 59 57" stroke="#c07050" stroke-width="2" fill="none"/></svg>'},{id:'sudo',name:'須藤さつき',rarity:'c',serif:'たけいしかぁああい！！',svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="22" y="66" width="56" height="49" rx="6" fill="#336699"/><polygon points="40,66 50,79 60,66 56,66 50,74 44,66" fill="white"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="27" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="26" ry="13" fill="#4a3020"/><rect x="24" y="18" width="52" height="14" fill="#4a3020"/><ellipse cx="24" cy="30" rx="7" ry="12" fill="#4a3020"/><ellipse cx="76" cy="30" rx="7" ry="12" fill="#4a3020"/><ellipse cx="37" cy="40" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="5.5" ry="5" fill="#1a1a1a"/><ellipse cx="50" cy="58" rx="10" ry="8" fill="#cc2222"/><rect x="42" y="54" width="6" height="5" rx="1" fill="white"/><rect x="52" y="54" width="6" height="5" rx="1" fill="white"/></svg>'},{id:'inoue_h',name:'井上北斗',rarity:'c',serif:'たったったったしねやぁあ！',svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="24" y="66" width="52" height="49" rx="6" fill="#111"/><polygon points="42,66 50,80 58,66 54,66 50,74 46,66" fill="white"/><rect x="48" y="66" width="4" height="30" fill="#003399"/><rect x="41" y="56" width="18" height="14" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="40" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="18" rx="24" ry="10" fill="#1a1010"/><rect x="26" y="18" width="48" height="12" fill="#1a1010"/><ellipse cx="37" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="63" cy="40" rx="6" ry="6" fill="white"/><ellipse cx="37" cy="40" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="63" cy="40" rx="4" ry="4" fill="#1a1a1a"/><path d="M28 32 L42 37" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><path d="M72 32 L58 37" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="50" cy="59" rx="9" ry="7" fill="#cc1111"/></svg>'},{id:'hasegawa_t',name:'長谷川拓馬',rarity:'c',serif:null,svg:'<svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg"><rect x="26" y="66" width="48" height="49" rx="6" fill="#228822"/><rect x="36" y="66" width="28" height="49" fill="#33aa33"/><rect x="44" y="50" width="12" height="18" rx="3" fill="#f5c8a0"/><ellipse cx="50" cy="38" rx="24" ry="26" fill="#f5c8a0"/><ellipse cx="50" cy="17" rx="24" ry="10" fill="#3a2010"/><rect x="26" y="17" width="48" height="12" fill="#3a2010"/><ellipse cx="37" cy="38" rx="5" ry="5" fill="#1a1a1a"/><ellipse cx="63" cy="38" rx="5" ry="5" fill="#1a1a1a"/><path d="M40 57 Q50 64 60 57" stroke="#c07050" stroke-width="2.5" fill="none"/><rect x="64" y="76" width="10" height="30" rx="4" fill="#ff6633"/></svg>'}];
 
-// SVGs for minigame characters
-const MONKEY_SVG = `<svg viewBox="0 0 60 70" width="55" height="65" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="42" rx="20" ry="24" fill="#8B6914"/><ellipse cx="30" cy="27" rx="18" ry="18" fill="#8B6914"/><ellipse cx="30" cy="32" rx="13" ry="10" fill="#d4a574"/><ellipse cx="14" cy="25" rx="5" ry="7" fill="#8B6914"/><ellipse cx="46" cy="25" rx="5" ry="7" fill="#8B6914"/><ellipse cx="14" cy="25" rx="3" ry="5" fill="#d4a574"/><ellipse cx="46" cy="25" rx="3" ry="5" fill="#d4a574"/><ellipse cx="22" cy="23" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="38" cy="23" rx="4" ry="4" fill="#1a1a1a"/><circle cx="23" cy="22" r="1.2" fill="white"/><circle cx="39" cy="22" r="1.2" fill="white"/><ellipse cx="27" cy="30" rx="2.5" ry="1.5" fill="#5a3a0a"/><ellipse cx="33" cy="30" rx="2.5" ry="1.5" fill="#5a3a0a"/><path d="M24 35 Q30 39 36 35" stroke="#5a3a0a" stroke-width="1.5" fill="none"/></svg>`;
-const GORILLA_SVG = `<svg viewBox="0 0 70 80" width="65" height="75" xmlns="http://www.w3.org/2000/svg"><ellipse cx="35" cy="52" rx="28" ry="26" fill="#2a2a2a"/><ellipse cx="35" cy="28" rx="26" ry="24" fill="#2a2a2a"/><ellipse cx="35" cy="35" rx="20" ry="14" fill="#4a4a4a"/><ellipse cx="12" cy="26" rx="8" ry="12" fill="#2a2a2a"/><ellipse cx="58" cy="26" rx="8" ry="12" fill="#2a2a2a"/><ellipse cx="20" cy="26" rx="8" ry="7" fill="#1a1a1a"/><ellipse cx="50" cy="26" rx="8" ry="7" fill="#1a1a1a"/><circle cx="21" cy="24" r="2" fill="white"/><circle cx="51" cy="24" r="2" fill="white"/><ellipse cx="35" cy="14" rx="20" ry="10" fill="#1a1a1a"/><path d="M22 38 Q35 44 48 38" stroke="#1a1a1a" stroke-width="2.5" fill="none"/></svg>`;
-const TAKEISHI_MINI_SVG = `<svg viewBox="0 0 60 75" width="55" height="70" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="44" width="28" height="28" rx="5" fill="#333"/><rect x="24" y="36" width="12" height="12" rx="3" fill="#f5c8a0"/><ellipse cx="30" cy="26" rx="18" ry="18" fill="#f5c8a0"/><ellipse cx="30" cy="10" rx="22" ry="18" fill="#1a1010"/><ellipse cx="16" cy="18" rx="10" ry="12" fill="#1a1010"/><ellipse cx="44" cy="18" rx="10" ry="12" fill="#1a1010"/><ellipse cx="22" cy="26" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="38" cy="26" rx="4" ry="4" fill="#1a1a1a"/><path d="M24 35 Q30 40 36 35" stroke="#c07050" stroke-width="1.5" fill="none"/></svg>`;
-const INOUE_H_MINI_SVG = `<svg viewBox="0 0 80 100" width="75" height="95" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="56" width="48" height="40" rx="6" fill="#111"/><polygon points="30,56 40,68 50,56 46,56 40,64 34,56" fill="white"/><rect x="36" y="56" width="8" height="26" fill="#003399"/><rect x="28" y="44" width="24" height="16" rx="3" fill="#f5c8a0"/><ellipse cx="40" cy="32" rx="22" ry="24" fill="#f5c8a0"/><ellipse cx="40" cy="12" rx="22" ry="10" fill="#1a1010"/><rect x="18" y="12" width="44" height="12" fill="#1a1010"/><ellipse cx="29" cy="30" rx="7" ry="7" fill="white"/><ellipse cx="51" cy="30" rx="7" ry="7" fill="white"/><ellipse cx="29" cy="30" rx="4.5" ry="4.5" fill="#1a1a1a"/><ellipse cx="51" cy="30" rx="4.5" ry="4.5" fill="#1a1a1a"/><path d="M18 22 L32 28" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><path d="M62 22 L48 28" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="40" cy="42" rx="9" ry="7" fill="#cc1111"/></svg>`;
-const TAKAKI_SVG = `<svg viewBox="0 0 80 100" width="70" height="88" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="58" width="52" height="40" rx="6" fill="#223355"/><rect x="26" y="46" width="28" height="16" rx="3" fill="#e8b888"/><ellipse cx="40" cy="32" rx="26" ry="28" fill="#e8b888"/><ellipse cx="40" cy="8" rx="26" ry="11" fill="#e8c080"/><rect x="14" y="8" width="52" height="14" fill="#e8c080"/><ellipse cx="26" cy="18" rx="6" ry="6" fill="rgba(255,255,220,.3)"/><ellipse cx="28" cy="30" rx="6" ry="6" fill="#1a1a1a"/><ellipse cx="52" cy="30" rx="6" ry="6" fill="#1a1a1a"/><circle cx="29" cy="28" r="2" fill="white"/><circle cx="53" cy="28" r="2" fill="white"/><path d="M22 20 Q28 18 34 20" stroke="#6a5020" stroke-width="1.5" fill="none"/><path d="M46 20 Q52 18 58 20" stroke="#6a5020" stroke-width="1.5" fill="none"/><ellipse cx="40" cy="40" rx="4" ry="3" fill="#c89060"/><path d="M30 48 Q40 55 50 48" stroke="#a07040" stroke-width="2" fill="none"/></svg>`;
+const MONKEY_SVG='<svg viewBox="0 0 60 70" width="55" height="65" xmlns="http://www.w3.org/2000/svg"><ellipse cx="30" cy="42" rx="20" ry="24" fill="#8B6914"/><ellipse cx="30" cy="27" rx="18" ry="18" fill="#8B6914"/><ellipse cx="30" cy="32" rx="13" ry="10" fill="#d4a574"/><ellipse cx="14" cy="25" rx="5" ry="7" fill="#8B6914"/><ellipse cx="46" cy="25" rx="5" ry="7" fill="#8B6914"/><ellipse cx="22" cy="23" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="38" cy="23" rx="4" ry="4" fill="#1a1a1a"/><path d="M24 35 Q30 39 36 35" stroke="#5a3a0a" stroke-width="1.5" fill="none"/></svg>';
+const GORILLA_SVG='<svg viewBox="0 0 70 80" width="65" height="75" xmlns="http://www.w3.org/2000/svg"><ellipse cx="35" cy="52" rx="28" ry="26" fill="#2a2a2a"/><ellipse cx="35" cy="28" rx="26" ry="24" fill="#2a2a2a"/><ellipse cx="35" cy="35" rx="20" ry="14" fill="#4a4a4a"/><ellipse cx="12" cy="26" rx="8" ry="12" fill="#2a2a2a"/><ellipse cx="58" cy="26" rx="8" ry="12" fill="#2a2a2a"/><ellipse cx="20" cy="26" rx="8" ry="7" fill="#1a1a1a"/><ellipse cx="50" cy="26" rx="8" ry="7" fill="#1a1a1a"/><circle cx="21" cy="24" r="2" fill="white"/><circle cx="51" cy="24" r="2" fill="white"/><path d="M22 38 Q35 44 48 38" stroke="#1a1a1a" stroke-width="2.5" fill="none"/></svg>';
+const TAKEISHI_MINI_SVG='<svg viewBox="0 0 60 75" width="55" height="70" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="44" width="28" height="28" rx="5" fill="#333"/><rect x="24" y="36" width="12" height="12" rx="3" fill="#f5c8a0"/><ellipse cx="30" cy="26" rx="18" ry="18" fill="#f5c8a0"/><ellipse cx="30" cy="10" rx="22" ry="18" fill="#1a1010"/><ellipse cx="16" cy="18" rx="10" ry="12" fill="#1a1010"/><ellipse cx="44" cy="18" rx="10" ry="12" fill="#1a1010"/><ellipse cx="22" cy="26" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="38" cy="26" rx="4" ry="4" fill="#1a1a1a"/></svg>';
+const INOUE_H_MINI_SVG='<svg viewBox="0 0 80 100" width="75" height="95" xmlns="http://www.w3.org/2000/svg"><rect x="16" y="56" width="48" height="40" rx="6" fill="#111"/><polygon points="30,56 40,68 50,56 46,56 40,64 34,56" fill="white"/><rect x="28" y="44" width="24" height="16" rx="3" fill="#f5c8a0"/><ellipse cx="40" cy="32" rx="22" ry="24" fill="#f5c8a0"/><ellipse cx="40" cy="12" rx="22" ry="10" fill="#1a1010"/><rect x="18" y="12" width="44" height="12" fill="#1a1010"/><ellipse cx="29" cy="30" rx="7" ry="7" fill="white"/><ellipse cx="51" cy="30" rx="7" ry="7" fill="white"/><ellipse cx="29" cy="30" rx="4.5" ry="4.5" fill="#1a1a1a"/><ellipse cx="51" cy="30" rx="4.5" ry="4.5" fill="#1a1a1a"/><path d="M18 22 L32 28" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><path d="M62 22 L48 28" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="40" cy="42" rx="9" ry="7" fill="#cc1111"/></svg>';
+const TAKAKI_SVG='<svg viewBox="0 0 80 100" width="70" height="88" xmlns="http://www.w3.org/2000/svg"><rect x="14" y="58" width="52" height="40" rx="6" fill="#223355"/><rect x="26" y="46" width="28" height="16" rx="3" fill="#e8b888"/><ellipse cx="40" cy="32" rx="26" ry="28" fill="#e8b888"/><ellipse cx="40" cy="8" rx="26" ry="11" fill="#e8c080"/><rect x="14" y="8" width="52" height="14" fill="#e8c080"/><ellipse cx="28" cy="30" rx="6" ry="6" fill="#1a1a1a"/><ellipse cx="52" cy="30" rx="6" ry="6" fill="#1a1a1a"/><circle cx="29" cy="28" r="2" fill="white"/><circle cx="53" cy="28" r="2" fill="white"/><path d="M30 48 Q40 55 50 48" stroke="#a07040" stroke-width="2" fill="none"/></svg>';
 
-// ============ GLOBALS ============
-let currentChar=null, currentGame=0;
-let miniRunning=false, gameTimer=null;
-
-// Game1
-let mtnTaps=0, mtnStartTime=null, mtnProgressEl=null, mtnAnimId=null;
-const MTN_RUNNERS = [
-  {svg:MONKEY_SVG,name:'猿',x:15,y:0.5,speed:0},
-  {svg:GORILLA_SVG,name:'ゴリラ',x:35,y:0.5,speed:0},
-  {svg:TAKEISHI_MINI_SVG,name:'竹石快',x:55,y:0.5,speed:0}
-];
-
-// Game2
-let dodgePhase='wait', ballX=0, ballY=0, ballTarget='',playerX=50, dodgeAnimId=null, ballLaunched=false, dodgeRound=0, dodgeClear=false;
-
-// Game3
+// ============ STATE ============
+let currentChar=null, currentGame=0, miniRunning=false, gameTimer=null;
+let mtnTaps=0, mtnStartTime=null, mtnAnimId=null;
+const MTN_RUNNERS=[{name:'猿',x:15,y:0.8,emoji:'🐒'},{name:'ゴリラ',x:35,y:0.8,emoji:'🦍'},{name:'竹石快',x:55,y:0.8,emoji:'🧑\u200d🦱'}];
+let dodgeRound=0, playerX=50, ballLaunched=false;
 let shoutRemain=3, shoutRunning=false;
 
+// ============ ZUKAN STATE (localStorage) ============
+function loadZukan(){try{return JSON.parse(localStorage.getItem('mitsuke_zukan')||'{}');}catch(e){return {};}}
+function saveZukan(z){try{localStorage.setItem('mitsuke_zukan',JSON.stringify(z));}catch(e){}}
+function getZukanCount(){return Object.keys(loadZukan()).length;}
+function updateZukanBadge(){
+  const n=getZukanCount();
+  document.getElementById('zukanBadge').textContent=n+'/'+CHARS.length;
+}
+function registerChar(c){
+  const z=loadZukan();
+  const isNew=!z[c.id];
+  if(!z[c.id]) z[c.id]={count:0};
+  z[c.id].count++;
+  saveZukan(z);
+  updateZukanBadge();
+  return isNew;
+}
+
 // ============ TITLE STARS ============
-(function(){
-  const l=document.getElementById('starsLayer');
-  for(let i=0;i<120;i++){
-    const s=document.createElement('div'); s.className='star-dot';
-    const sz=Math.random()*2.5+.5;
-    s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*85}%;left:${Math.random()*100}%;--d:${(Math.random()*3+1.5).toFixed(1)}s;--delay:${(Math.random()*4).toFixed(1)}s;`;
-    l.appendChild(s);
-  }
-})();
+(function(){const l=document.getElementById('starsLayer');for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star-dot';const sz=Math.random()*2.5+.5;s.style.cssText='width:'+sz+'px;height:'+sz+'px;top:'+Math.random()*85+'%;left:'+Math.random()*100+'%;--d:'+(Math.random()*3+1.5).toFixed(1)+'s;--delay:'+(Math.random()*4).toFixed(1)+'s;';l.appendChild(s);}updateZukanBadge();})();
 
 // ============ MODAL / GACHA ============
 function openModal(){document.getElementById('modal').classList.add('show');}
 function startGacha(){
   document.getElementById('modal').classList.remove('show');
   document.getElementById('titleScreen').classList.add('hidden');
-  const gs=document.getElementById('gachaScreen');
-  gs.classList.remove('hidden');
-  const r=Math.random();
-  let pool;
-  if(r<.05) pool=CHARS.filter(c=>c.rarity==='vr');
-  else if(r<.25) pool=CHARS.filter(c=>c.rarity==='sr');
+  const gs=document.getElementById('gachaScreen');gs.classList.remove('hidden');
+  const r=Math.random();let pool;
+  if(r<.05)pool=CHARS.filter(c=>c.rarity==='vr');
+  else if(r<.25)pool=CHARS.filter(c=>c.rarity==='sr');
   else pool=CHARS.filter(c=>c.rarity==='c');
   currentChar=pool[Math.floor(Math.random()*pool.length)];
-
-  const dw=document.getElementById('dragonWrap');
-  dw.style.display='flex';
-  dw.style.transition='transform 1.2s cubic-bezier(.2,0,.6,1)';
-  dw.style.transform='translateY(-60%)';
-
+  const dw=document.getElementById('dragonWrap');dw.style.display='flex';dw.style.transition='transform 1.2s cubic-bezier(.2,0,.6,1)';dw.style.transform='translateY(-60%)';
   let triggered=false;
-  function onTap(){
-    if(triggered) return; triggered=true;
-    gs.removeEventListener('click',onTap); gs.removeEventListener('touchstart',onTap);
-    document.getElementById('dragHint').style.display='none';
-    dw.style.transition='transform .3s cubic-bezier(.2,1.5,.4,1)';
-    dw.style.transform='translateY(10%)';
-    gs.classList.add('shake'); setTimeout(()=>gs.classList.remove('shake'),500);
-    spawnParticles();
-    setTimeout(()=>{
-      const cw=document.getElementById('capsuleWrap'); cw.classList.remove('hidden');
-      const fl=document.createElement('div'); fl.className='flash'; document.body.appendChild(fl); setTimeout(()=>fl.remove(),600);
-    },400);
-    setTimeout(()=>{
-      const cw=document.getElementById('capsuleWrap'); cw.style.cursor='pointer'; cw.style.animation='capsulePulse .6s infinite alternate';
-      const h=document.createElement('div'); h.id='tapHint'; h.style.cssText='position:absolute;bottom:6%;left:0;right:0;text-align:center;z-index:25;color:#FFD700;font-weight:700;font-size:1rem;text-shadow:0 0 10px #ff6600;animation:hintBounce 1s infinite alternate;'; h.textContent='👆 カプセルをタップ！'; gs.appendChild(h);
-      cw.onclick=cw.ontouchstart=crackCapsule;
-    },800);
-  }
-  gs.addEventListener('click',onTap); gs.addEventListener('touchstart',onTap,{passive:true});
-}
+  function onTap(){if(triggered)return;triggered=true;gs.removeEventListener('click',onTap);gs.removeEventListener('touchstart',onTap);
+    document.getElementById('dragHint').style.display='none';dw.style.transition='transform .3s cubic-bezier(.2,1.5,.4,1)';dw.style.transform='translateY(10%)';
+    gs.classList.add('shake');setTimeout(()=>gs.classList.remove('shake'),500);spawnParticles();
+    // カプセル出現後、自動でクラックへ（タップ不要）
+    setTimeout(()=>{const cw=document.getElementById('capsuleWrap');cw.classList.remove('hidden');const fl=document.createElement('div');fl.className='flash';document.body.appendChild(fl);setTimeout(()=>fl.remove(),600);},400);
+    setTimeout(()=>crackCapsule(),900);}
+  gs.addEventListener('click',onTap);gs.addEventListener('touchstart',onTap,{passive:true});}
+
 function crackCapsule(){
-  const cw=document.getElementById('capsuleWrap'); if(cw.dataset.cracked) return; cw.dataset.cracked='1'; cw.onclick=cw.ontouchstart=null;
-  const h=document.getElementById('tapHint'); if(h) h.remove();
+  const cw=document.getElementById('capsuleWrap');if(cw.dataset.cracked)return;cw.dataset.cracked='1';
   document.getElementById('capsuleSvg').classList.add('capsule-crack');
-  const fl=document.createElement('div'); fl.className='flash'; document.body.appendChild(fl); setTimeout(()=>fl.remove(),600);
-  setTimeout(startTease,600);
-}
+  const fl=document.createElement('div');fl.className='flash';document.body.appendChild(fl);setTimeout(()=>fl.remove(),600);
+  setTimeout(startTease,600);}
+
 function startTease(){
   document.getElementById('gachaScreen').querySelector('.light-beams').style.animation='rotateLights .5s linear infinite';
-  document.getElementById('teaseOverlay').classList.add('show');
-  spawnParticles();
-  const c=currentChar;
-  const rLbl=c.rarity==='vr'?'⭐⭐⭐⭐ VICTORY RARE！！':c.rarity==='sr'?'⭐⭐⭐ SUPER RARE！':'⭐⭐ COMMON';
+  document.getElementById('teaseOverlay').classList.add('show');spawnParticles();
+  const c=currentChar;const rLbl=c.rarity==='vr'?'⭐⭐⭐⭐ VICTORY RARE！！':c.rarity==='sr'?'⭐⭐⭐ SUPER RARE！':'⭐⭐ COMMON';
   const seqs=[['なんと…','この人物は…',rLbl],['まさか…','見附が誇る','あの人物か！？'],['ッッッ！！','その名は…','…………']];
   const s=seqs[Math.floor(Math.random()*seqs.length)];
   document.getElementById('teaseText').textContent=s[0];
   setTimeout(()=>{document.getElementById('teaseMsg').textContent=s[1];},700);
-  setTimeout(()=>{
-    document.getElementById('teaseSub').textContent=s[2]; spawnParticles();
-    const fl=document.createElement('div'); fl.className='flash'; document.body.appendChild(fl); setTimeout(()=>fl.remove(),500);
-  },1800);
-  setTimeout(()=>{ document.getElementById('teaseOverlay').classList.remove('show'); showCard(); },3200);
-}
-function spawnParticles(){
-  const con=document.getElementById('particleContainer');
-  const cols=['#FFD700','#ff6600','#ff0044','#00ffff','#ff00ff','#ffffff'];
-  for(let i=0;i<50;i++){
-    const p=document.createElement('div'); p.className='particle';
-    const c=cols[Math.floor(Math.random()*cols.length)];
-    const sz=Math.random()*8+3;
-    p.style.cssText=`width:${sz}px;height:${sz}px;background:${c};left:${Math.random()*100}%;top:${Math.random()*100}%;--tx:${(Math.random()-.5)*300}px;--ty:${-(Math.random()*300+100)}px;--dur:${(Math.random()*1.5+1).toFixed(1)}s;--delay:${(Math.random()*2).toFixed(1)}s;`;
-    con.appendChild(p);
+  setTimeout(()=>{document.getElementById('teaseSub').textContent=s[2];spawnParticles();const fl=document.createElement('div');fl.className='flash';document.body.appendChild(fl);setTimeout(()=>fl.remove(),500);},1800);
+  // 虹フラッシュ (SR以上)
+  if(c.rarity==='vr'||c.rarity==='sr'){
+    setTimeout(()=>{const rb=document.createElement('div');rb.className='rainbow-flash';document.body.appendChild(rb);setTimeout(()=>rb.remove(),1300);},2000);
   }
-  setTimeout(()=>con.innerHTML='',5000);
-}
+  setTimeout(()=>{document.getElementById('teaseOverlay').classList.remove('show');showCard();},3200);}
+
+function spawnParticles(){
+  const con=document.getElementById('particleContainer');const cols=['#FFD700','#ff6600','#ff0044','#00ffff','#ff00ff','#ffffff'];
+  for(let i=0;i<50;i++){const p=document.createElement('div');p.className='particle';const c=cols[Math.floor(Math.random()*cols.length)];const sz=Math.random()*8+3;
+    p.style.cssText='width:'+sz+'px;height:'+sz+'px;background:'+c+';left:'+Math.random()*100+'%;top:'+Math.random()*100+'%;--tx:'+(Math.random()-.5)*300+'px;--ty:'+-(Math.random()*300+100)+'px;--dur:'+(Math.random()*1.5+1).toFixed(1)+'s;--delay:'+(Math.random()*2).toFixed(1)+'s;';con.appendChild(p);}
+  setTimeout(()=>con.innerHTML='',5000);}
+
 function showCard(){
   document.getElementById('gachaScreen').classList.add('hidden');
-  const cs=document.getElementById('cardScreen'); cs.classList.remove('hidden');
+  const cs=document.getElementById('cardScreen');cs.classList.remove('hidden');
   const c=currentChar;
+  // 図鑑に登録
+  const isNew=registerChar(c);
   const bg=document.getElementById('cardBg');
-  if(c.rarity==='vr'){bg.style.background='radial-gradient(ellipse at center,#2a1500 0%,#000 100%)'; spawnConfetti(80);}
-  else if(c.rarity==='sr'){bg.style.background='radial-gradient(ellipse at center,#0a0a20 0%,#000 100%)'; spawnConfetti(30);}
+  if(c.rarity==='vr'){bg.style.background='radial-gradient(ellipse at center,#2a1500 0%,#000 100%)';spawnConfetti(80);}
+  else if(c.rarity==='sr'){bg.style.background='radial-gradient(ellipse at center,#0a0a20 0%,#000 100%)';spawnConfetti(30);}
   else bg.style.background='radial-gradient(ellipse at center,#050520 0%,#000 100%)';
   const rT=c.rarity==='vr'?'⭐⭐⭐⭐ VICTORY RARE':c.rarity==='sr'?'⭐⭐⭐ SUPER RARE':'⭐⭐ COMMON';
-  const con=document.getElementById('cardContainer');
-  con.className=`card-container rarity-${c.rarity}`;
-  con.innerHTML=`<div class="rarity-label">${rT}</div><div class="char-card">${c.rarity==='vr'?'<div class="vr-shimmer"></div>':''}${c.svg}<div class="char-name">${c.name}</div>${c.serif?`<div class="char-serif">「${c.serif}」</div>`:''}</div><button class="next-btn" onclick="launchMini()">🎮 ミニゲームへ</button>`;
-}
-function spawnConfetti(n){
-  const cols=['#FFD700','#ff6b35','#ff3399','#33aaff','#66ff44','#ff44ff'];
-  for(let i=0;i<n;i++){
-    const el=document.createElement('div'); el.className='confetti-piece';
-    el.style.cssText=`left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*cols.length)]};--dur:${(Math.random()*2+2).toFixed(1)}s;--delay:${(Math.random()*2).toFixed(1)}s;transform:rotate(${Math.random()*360}deg);`;
-    document.body.appendChild(el); setTimeout(()=>el.remove(),5000);
-  }
-}
+  const z=loadZukan();const cnt=z[c.id]?z[c.id].count:1;
+  const con=document.getElementById('cardContainer');con.className='card-container rarity-'+c.rarity;
+  con.innerHTML='<div class="rarity-label">'+rT+(isNew?' &nbsp;<span style="color:#ff6b35;font-size:.85rem;">NEW！</span>':'')+'</div><div class="char-card">'+(c.rarity==='vr'?'<div class="vr-shimmer"></div>':'')+c.svg+'<div class="char-name">'+c.name+'</div>'+(c.serif?'<div class="char-serif">「'+c.serif+'」</div>':'')+'<div style="font-size:.75rem;color:rgba(200,200,255,.5);margin-top:6px;">入手回数: '+cnt+'回</div></div><button class="next-btn" onclick="launchMini()">🎮 ミニゲームへ</button>';}
+
+function spawnConfetti(n){const cols=['#FFD700','#ff6b35','#ff3399','#33aaff','#66ff44','#ff44ff'];for(let i=0;i<n;i++){const el=document.createElement('div');el.className='confetti-piece';el.style.cssText='left:'+Math.random()*100+'%;background:'+cols[Math.floor(Math.random()*cols.length)]+';--dur:'+(Math.random()*2+2).toFixed(1)+'s;--delay:'+(Math.random()*2).toFixed(1)+'s;transform:rotate('+Math.random()*360+'deg);';document.body.appendChild(el);setTimeout(()=>el.remove(),5000);}}
+
+// ============ ZUKAN ============
+function openZukan(){
+  document.getElementById('titleScreen').classList.add('hidden');
+  document.getElementById('zukanScreen').classList.remove('hidden');
+  renderZukan();}
+function closeZukan(){
+  document.getElementById('zukanScreen').classList.add('hidden');
+  document.getElementById('titleScreen').classList.remove('hidden');}
+function renderZukan(){
+  const z=loadZukan();
+  const grid=document.getElementById('zukanGrid');
+  const unlocked=Object.keys(z).length;
+  grid.innerHTML='<div class="zukan-count" style="grid-column:1/-1;">コンプリート: '+unlocked+' / '+CHARS.length+'</div>';
+  CHARS.forEach(c=>{
+    const have=z[c.id];
+    const div=document.createElement('div');
+    div.className='zukan-card '+(have?'unlocked-'+c.rarity:'locked');
+    if(have){div.innerHTML=c.svg+'<div class="zukan-name">'+c.name+'</div><div style="font-size:.6rem;color:rgba(200,200,255,.5);">×'+have.count+'</div>';div.onclick=()=>openDetail(c);}
+    else{div.innerHTML='<div style="font-size:2.5rem;">❓</div><div class="zukan-name" style="color:rgba(255,255,255,.3);">？？？</div>';}
+    grid.appendChild(div);});}
+function openDetail(c){
+  const z=loadZukan();const cnt=z[c.id]?z[c.id].count:0;
+  const rT=c.rarity==='vr'?'⭐⭐⭐⭐ VICTORY RARE':c.rarity==='sr'?'⭐⭐⭐ SUPER RARE':'⭐⭐ COMMON';
+  const col=c.rarity==='vr'?'#FFD700':c.rarity==='sr'?'#C0C0C0':'#88aaff';
+  document.getElementById('detailContent').innerHTML='<div class="detail-rarity" style="color:'+col+'">'+rT+'</div>'+c.svg+'<div class="detail-name">'+c.name+'</div>'+(c.serif?'<div class="detail-serif">「'+c.serif+'」</div>':'')+'<div class="detail-count">入手回数: '+cnt+'回</div>';
+  document.getElementById('detailModal').classList.add('show');}
+function closeDetail(){document.getElementById('detailModal').classList.remove('show');}
 
 // ============ MINI LAUNCH ============
-function launchMini(){
-  document.getElementById('cardScreen').classList.add('hidden');
-  // pick random game 0,1,2
-  currentGame = Math.floor(Math.random()*3);
-  document.getElementById('miniScreen').classList.remove('hidden');
-  if(currentGame===0) startMountain();
-  else if(currentGame===1) startDodge();
-  else startShout();
-}
+function launchMini(){document.getElementById('cardScreen').classList.add('hidden');currentGame=Math.floor(Math.random()*3);document.getElementById('miniScreen').classList.remove('hidden');if(currentGame===0)startMountain();else if(currentGame===1)startDodge();else startShout();}
 
-// ============ GAME 1: MOUNTAIN ============
+// ============ GAME1: MOUNTAIN ============
 function startMountain(){
-  const g=document.getElementById('game1'); g.style.display='block';
-  mtnTaps=0; miniRunning=true; mtnStartTime=Date.now();
-  // init runners
-  MTN_RUNNERS.forEach((r,i)=>{ r.x=15+i*25; r.y=0.8; r.speed=0; });
-  const canvas=document.getElementById('mtnCanvas');
-  canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
-  drawMountain(canvas);
-  updateMtnUI();
-  // tap listener
-  canvas.addEventListener('click', onMtnTap);
-  canvas.addEventListener('touchstart', onMtnTap, {passive:true});
-  // countdown
-  mtnStartTime=Date.now();
+  document.getElementById('game1').style.display='block';mtnTaps=0;miniRunning=true;
+  MTN_RUNNERS.forEach((r,i)=>{r.x=15+i*25;r.y=0.8;});
+  const canvas=document.getElementById('mtnCanvas');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;
+  drawMountain(canvas);updateMtnUI();mtnStartTime=Date.now();
   const LIMIT=5000;
-  gameTimer=setInterval(()=>{
-    if(!miniRunning){clearInterval(gameTimer);return;}
-    const elapsed=Date.now()-mtnStartTime;
-    const remain=Math.max(0,(LIMIT-elapsed)/1000);
+  gameTimer=setInterval(()=>{if(!miniRunning){clearInterval(gameTimer);return;}
+    const elapsed=Date.now()-mtnStartTime;const remain=Math.max(0,(LIMIT-elapsed)/1000);
     document.getElementById('mtnTimeLabel').textContent=remain.toFixed(1)+'s';
-    if(elapsed>=LIMIT){clearInterval(gameTimer); if(miniRunning) triggerGameFail('時間切れ！山頂に届かなかった…', '壮行式に間に合わなかった……');}
-  },100);
-  animateMtn();
-}
-function onMtnTap(e){
-  if(!miniRunning) return;
-  e.preventDefault&&e.preventDefault();
-  mtnTaps++;
-  // progress runners
-  MTN_RUNNERS.forEach((r,i)=>{
-    const speed=0.008+(i===1?0.006:i===2?0.009:0.007);
-    r.y=Math.max(0.05, r.y - speed);
-  });
-  updateMtnUI();
-  if(mtnTaps>=30){
-    const leader=MTN_RUNNERS.reduce((a,b)=>a.y<b.y?a:b);
-    triggerGameClear(`${leader.name}が山頂制覇！壮行式を完全スルー！！`, '裏山登頂！誰も気づかなかった…はず。');
-  }
-}
-function updateMtnUI(){
-  document.getElementById('mtnTapLabel').textContent=`連打: ${mtnTaps}`;
-  const pct=Math.min(100,(mtnTaps/30)*100);
-  document.getElementById('mtnBar').style.width=pct+'%';
-}
-function drawMountain(canvas){
-  const W=canvas.width, H=canvas.height, ctx=canvas.getContext('2d');
-  // sky
-  const sky=ctx.createLinearGradient(0,0,0,H*0.6); sky.addColorStop(0,'#87ceeb'); sky.addColorStop(1,'#c8e8f8'); ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.6);
-  // mountain
-  ctx.fillStyle='#5a7a4a'; ctx.beginPath(); ctx.moveTo(0,H*0.8); ctx.lineTo(W*0.2,H*0.25); ctx.lineTo(W*0.5,H*0.08); ctx.lineTo(W*0.8,H*0.25); ctx.lineTo(W,H*0.8); ctx.closePath(); ctx.fill();
-  // snow cap
-  ctx.fillStyle='white'; ctx.beginPath(); ctx.moveTo(W*0.35,H*0.2); ctx.lineTo(W*0.5,H*0.08); ctx.lineTo(W*0.65,H*0.2); ctx.closePath(); ctx.fill();
-  // path
-  ctx.strokeStyle='rgba(255,255,200,.6)'; ctx.lineWidth=3; ctx.setLineDash([8,6]);
-  ctx.beginPath(); ctx.moveTo(W*0.5,H*0.1); ctx.lineTo(W*0.45,H*0.4); ctx.lineTo(W*0.4,H*0.7); ctx.lineTo(W*0.3,H*0.85); ctx.stroke(); ctx.setLineDash([]);
-  // ground
-  const gnd=ctx.createLinearGradient(0,H*0.8,0,H); gnd.addColorStop(0,'#4a7a3a'); gnd.addColorStop(1,'#2a5a1a'); ctx.fillStyle=gnd; ctx.fillRect(0,H*0.8,W,H*0.2);
-  // school building far right
-  ctx.fillStyle='#c8a880'; ctx.fillRect(W*0.72,H*0.55,W*0.22,H*0.25);
-  ctx.fillStyle='#a08060'; ctx.beginPath(); ctx.moveTo(W*0.72,H*0.55); ctx.lineTo(W*0.83,H*0.42); ctx.lineTo(W*0.94,H*0.55); ctx.closePath(); ctx.fill();
-  ctx.fillStyle='rgba(0,0,0,.3)'; ctx.font=`bold ${W*0.04}px sans-serif`; ctx.textAlign='center'; ctx.fillText('壮行式中',W*0.83,H*0.68);
-}
-function animateMtn(){
-  const canvas=document.getElementById('mtnCanvas');
-  if(!miniRunning||!canvas){ return; }
-  const W=canvas.width, H=canvas.height, ctx=canvas.getContext('2d');
-  drawMountain(canvas);
-  // draw runners
-  MTN_RUNNERS.forEach(r=>{
-    const px=W*(0.3+r.x*0.004);
-    const py=H*(r.y);
-    ctx.save(); ctx.translate(px,py);
-    const tmpDiv=document.createElement('div'); tmpDiv.innerHTML=r.svg;
-    // draw name label
-    ctx.font='bold 11px sans-serif'; ctx.fillStyle='#fff'; ctx.textAlign='center';
-    ctx.fillText(r.name,0,-40);
-    // bounce effect
-    const bounce=Math.sin(Date.now()*0.01)*3;
-    ctx.translate(0,bounce);
-    // draw SVG as image via blob
-    ctx.restore();
-  });
-  // draw runners as emoji fallback (canvas can't render SVGs directly easily)
-  MTN_RUNNERS.forEach((r,i)=>{
-    const px=W*(0.25+i*0.25);
-    const py=H*r.y;
-    ctx.save();
-    ctx.font=`${Math.max(28,H*0.06)}px serif`;
-    ctx.textAlign='center';
-    const emojis=['🐒','🦍','🧑‍🦱'];
-    ctx.fillText(emojis[i], px, py);
-    ctx.font='bold 12px sans-serif'; ctx.fillStyle='#fff';
-    ctx.shadowColor='#000'; ctx.shadowBlur=3;
-    ctx.fillText(r.name, px, py+20);
-    ctx.shadowBlur=0;
-    ctx.restore();
-  });
-  mtnAnimId=requestAnimationFrame(animateMtn);
-}
+    if(elapsed>=LIMIT){clearInterval(gameTimer);if(miniRunning)triggerGameFail('時間切れ！','山頂に届かなかった…壮行式に間に合わなかった');}},100);
+  canvas.addEventListener('click',onMtnTap);canvas.addEventListener('touchstart',onMtnTap,{passive:true});animateMtn();}
+function onMtnTap(e){if(!miniRunning)return;e.preventDefault&&e.preventDefault();mtnTaps++;MTN_RUNNERS.forEach((r,i)=>{r.y=Math.max(0.05,r.y-(0.008+(i===1?0.006:i===2?0.009:0.007)));});updateMtnUI();if(mtnTaps>=30){const leader=MTN_RUNNERS.reduce((a,b)=>a.y<b.y?a:b);triggerGameClear(leader.name+'が山頂制覇！','壮行式を完全スルー！！誰も気づかなかった…はず。');}}
+function updateMtnUI(){document.getElementById('mtnTapLabel').textContent='連打: '+mtnTaps;document.getElementById('mtnBar').style.width=Math.min(100,(mtnTaps/30)*100)+'%';}
+function drawMountain(canvas){const W=canvas.width,H=canvas.height,ctx=canvas.getContext('2d');const sky=ctx.createLinearGradient(0,0,0,H*0.6);sky.addColorStop(0,'#87ceeb');sky.addColorStop(1,'#c8e8f8');ctx.fillStyle=sky;ctx.fillRect(0,0,W,H*0.6);ctx.fillStyle='#5a7a4a';ctx.beginPath();ctx.moveTo(0,H*0.8);ctx.lineTo(W*0.2,H*0.25);ctx.lineTo(W*0.5,H*0.08);ctx.lineTo(W*0.8,H*0.25);ctx.lineTo(W,H*0.8);ctx.closePath();ctx.fill();ctx.fillStyle='white';ctx.beginPath();ctx.moveTo(W*0.35,H*0.2);ctx.lineTo(W*0.5,H*0.08);ctx.lineTo(W*0.65,H*0.2);ctx.closePath();ctx.fill();ctx.strokeStyle='rgba(255,255,200,.6)';ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.beginPath();ctx.moveTo(W*0.5,H*0.1);ctx.lineTo(W*0.45,H*0.4);ctx.lineTo(W*0.4,H*0.7);ctx.lineTo(W*0.3,H*0.85);ctx.stroke();ctx.setLineDash([]);const gnd=ctx.createLinearGradient(0,H*0.8,0,H);gnd.addColorStop(0,'#4a7a3a');gnd.addColorStop(1,'#2a5a1a');ctx.fillStyle=gnd;ctx.fillRect(0,H*0.8,W,H*0.2);ctx.fillStyle='#c8a880';ctx.fillRect(W*0.72,H*0.55,W*0.22,H*0.25);ctx.fillStyle='#a08060';ctx.beginPath();ctx.moveTo(W*0.72,H*0.55);ctx.lineTo(W*0.83,H*0.42);ctx.lineTo(W*0.94,H*0.55);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(0,0,0,.3)';ctx.font='bold '+W*0.04+'px sans-serif';ctx.textAlign='center';ctx.fillText('壮行式中',W*0.83,H*0.68);}
+function animateMtn(){const canvas=document.getElementById('mtnCanvas');if(!miniRunning||!canvas)return;const W=canvas.width,H=canvas.height,ctx=canvas.getContext('2d');drawMountain(canvas);MTN_RUNNERS.forEach((r,i)=>{const px=W*(0.25+i*0.25);const py=H*r.y;ctx.save();ctx.font=Math.max(28,H*0.06)+'px serif';ctx.textAlign='center';ctx.fillText(r.emoji,px,py);ctx.font='bold 12px sans-serif';ctx.fillStyle='#fff';ctx.shadowColor='#000';ctx.shadowBlur=3;ctx.fillText(r.name,px,py+20);ctx.shadowBlur=0;ctx.restore();});mtnAnimId=requestAnimationFrame(animateMtn);}
 
-// ============ GAME 2: DODGEBALL ============
-function startDodge(){
-  const g=document.getElementById('game2'); g.style.display='block'; miniRunning=true;
-  dodgeRound=0; dodgeClear=false; playerX=50; ballLaunched=false;
-  // draw teacher
-  document.getElementById('teacherWrap').innerHTML=INOUE_H_MINI_SVG;
-  document.getElementById('playerDodge').innerHTML=`<svg viewBox="0 0 50 65" width="44" height="58" xmlns="http://www.w3.org/2000/svg"><ellipse cx="25" cy="16" rx="14" ry="14" fill="#f5c8a0"/><rect x="12" y="28" width="26" height="30" rx="5" fill="#3366cc"/><ellipse cx="16" cy="52" rx="8" ry="7" fill="#222"/><ellipse cx="34" cy="52" rx="8" ry="7" fill="#222"/><ellipse cx="19" cy="14" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="31" cy="14" rx="4" ry="4" fill="#1a1a1a"/><path d="M20 22 Q25 26 30 22" stroke="#c07050" stroke-width="1.5" fill="none"/></svg>`;
-  updateDodgePlayer();
-  setTimeout(()=>launchBall(), 1200);
-}
-function updateDodgePlayer(){
-  const W=document.getElementById('game2').offsetWidth;
-  document.getElementById('playerDodge').style.left=(playerX/100*W-22)+'px';
-}
-function launchBall(){
-  if(!miniRunning) return;
-  ballLaunched=true;
-  const g=document.getElementById('game2');
-  const W=g.offsetWidth, H=g.offsetHeight;
-  const ball=document.getElementById('ball');
-  ball.style.display='block';
-  // random target: left or right side
-  ballTarget=Math.random()<.5?'left':'right';
-  const targetX=ballTarget==='left'?W*0.2:W*0.8;
-  ball.style.left=(W/2-30)+'px';
-  ball.style.top=(H*0.08)+'px';
-  ball.style.transition='none';
-  document.getElementById('dodgeStatus').textContent=`井上先生が投げた！ たったった！`;
-  // animate ball toward target
-  setTimeout(()=>{
-    ball.style.transition='left 0.9s linear, top 0.9s linear';
-    ball.style.left=(targetX-30)+'px';
-    ball.style.top=(H*0.45)+'px';
-  },100);
-  // check hit after 1s
-  setTimeout(()=>{ if(miniRunning) checkHit(); },1100);
-}
-function dodge(dir){
-  if(!miniRunning||!ballLaunched) return;
-  const W=document.getElementById('game2').offsetWidth;
-  if(dir==='left') playerX=Math.max(5,playerX-40);
-  else playerX=Math.min(95,playerX+40);
-  updateDodgePlayer();
-}
-function checkHit(){
-  if(!miniRunning) return;
-  const g=document.getElementById('game2');
-  const W=g.offsetWidth;
-  const ballEl=document.getElementById('ball');
-  const ballRect=ballEl.getBoundingClientRect();
-  const playerEl=document.getElementById('playerDodge');
-  const playerRect=playerEl.getBoundingClientRect();
-  const overlap=!(ballRect.right<playerRect.left||ballRect.left>playerRect.right||ballRect.bottom<playerRect.top||ballRect.top>playerRect.bottom);
-  ballEl.style.display='none'; ballLaunched=false;
-  if(overlap){
-    // HIT!
-    const hit=document.createElement('div'); hit.className='hit-effect'; document.body.appendChild(hit); setTimeout(()=>hit.remove(),500);
-    const eff=document.createElement('div'); eff.style.cssText='position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;pointer-events:none;';
-    eff.innerHTML=`<div style="font-size:clamp(2rem,10vw,4rem);font-weight:900;color:#fff;text-shadow:0 0 30px #f00;animation:teasePulse .3s infinite alternate;">ばちいいいいん！</div>`;
-    document.body.appendChild(eff); setTimeout(()=>eff.remove(),1200);
-    setTimeout(()=>triggerGameFail('ボールが顔面に直撃！！','「ばちいいいいん！」\n顔が真っ赤になった…'),1000);
-  } else {
-    dodgeRound++;
-    document.getElementById('dodgeStatus').textContent=`よけた！ (${dodgeRound}/3回)`;
-    if(dodgeRound>=3){
-      triggerGameClear('3球全部よけた！！','井上先生の剛速球を全弾回避！');
-    } else {
-      playerX=50; updateDodgePlayer();
-      setTimeout(()=>launchBall(), 1000);
-    }
-  }
-}
+// ============ GAME2: DODGEBALL ============
+function startDodge(){document.getElementById('game2').style.display='block';miniRunning=true;dodgeRound=0;playerX=50;ballLaunched=false;document.getElementById('teacherWrap').innerHTML=INOUE_H_MINI_SVG;document.getElementById('playerDodge').innerHTML='<svg viewBox="0 0 50 65" width="44" height="58" xmlns="http://www.w3.org/2000/svg"><ellipse cx="25" cy="16" rx="14" ry="14" fill="#f5c8a0"/><rect x="12" y="28" width="26" height="30" rx="5" fill="#3366cc"/><ellipse cx="16" cy="52" rx="8" ry="7" fill="#222"/><ellipse cx="34" cy="52" rx="8" ry="7" fill="#222"/><ellipse cx="19" cy="14" rx="4" ry="4" fill="#1a1a1a"/><ellipse cx="31" cy="14" rx="4" ry="4" fill="#1a1a1a"/></svg>';updateDodgePlayer();setTimeout(()=>launchBall(),1200);}
+function updateDodgePlayer(){const W=document.getElementById('game2').offsetWidth;document.getElementById('playerDodge').style.left=(playerX/100*W-22)+'px';}
+function launchBall(){if(!miniRunning)return;ballLaunched=true;const g=document.getElementById('game2');const W=g.offsetWidth,H=g.offsetHeight;const ball=document.getElementById('ball');ball.style.display='block';const ballTarget=Math.random()<.5?'left':'right';const targetX=ballTarget==='left'?W*0.2:W*0.8;ball.style.left=(W/2-30)+'px';ball.style.top=(H*0.08)+'px';ball.style.transition='none';document.getElementById('dodgeStatus').textContent='井上先生が投げた！ たったった！';setTimeout(()=>{ball.style.transition='left 0.9s linear, top 0.9s linear';ball.style.left=(targetX-30)+'px';ball.style.top=(H*0.45)+'px';},100);setTimeout(()=>{if(miniRunning)checkHit(ballTarget);},1100);}
+function dodge(dir){if(!miniRunning||!ballLaunched)return;if(dir==='left')playerX=Math.max(5,playerX-40);else playerX=Math.min(95,playerX+40);updateDodgePlayer();}
+function checkHit(ballTarget){if(!miniRunning)return;const ballEl=document.getElementById('ball');const playerEl=document.getElementById('playerDodge');const bR=ballEl.getBoundingClientRect(),pR=playerEl.getBoundingClientRect();const overlap=!(bR.right<pR.left||bR.left>pR.right||bR.bottom<pR.top||bR.top>pR.bottom);ballEl.style.display='none';ballLaunched=false;if(overlap){const hit=document.createElement('div');hit.className='hit-effect';document.body.appendChild(hit);setTimeout(()=>hit.remove(),500);const eff=document.createElement('div');eff.style.cssText='position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;pointer-events:none;';eff.innerHTML='<div style="font-size:clamp(2rem,10vw,4rem);font-weight:900;color:#fff;text-shadow:0 0 30px #f00;animation:teasePulse .3s infinite alternate;">ばちいいいいん！</div>';document.body.appendChild(eff);setTimeout(()=>eff.remove(),1200);setTimeout(()=>triggerGameFail('ボールが顔面に直撃！！','「ばちいいいいん！」\n顔が真っ赤になった…'),1000);}else{dodgeRound++;document.getElementById('dodgeStatus').textContent='よけた！ ('+dodgeRound+'/3回)';if(dodgeRound>=3){triggerGameClear('3球全部よけた！！','井上先生の剛速球を全弾回避！');}else{playerX=50;updateDodgePlayer();setTimeout(()=>launchBall(),1000);}}}
 
-// ============ GAME 3: SHOUT ============
-function startShout(){
-  const g=document.getElementById('game3'); g.style.display='block'; miniRunning=true; shoutRemain=3;
-  // draw gym background
-  const canvas=document.getElementById('gymCanvas');
-  canvas.width=canvas.offsetWidth; canvas.height=canvas.offsetHeight;
-  drawGym(canvas);
-  // place takaki far away
-  const tw=document.getElementById('takakiWrap');
-  tw.innerHTML=`<div style="transform:scale(0.5);opacity:0.7;">${TAKAKI_SVG}</div>`;
-  document.getElementById('shoutCount').textContent=`🎯 残り ${shoutRemain} 回`;
-  shoutRunning=true;
-}
-function drawGym(canvas){
-  const W=canvas.width, H=canvas.height, ctx=canvas.getContext('2d');
-  // floor
-  const fl=ctx.createLinearGradient(0,H*0.5,0,H); fl.addColorStop(0,'#c8a878'); fl.addColorStop(1,'#a88850'); ctx.fillStyle=fl; ctx.fillRect(0,H*0.5,W,H*0.5);
-  // ceiling/walls
-  ctx.fillStyle='#888898'; ctx.fillRect(0,0,W,H*0.5);
-  // perspective lines
-  ctx.strokeStyle='rgba(0,0,0,.15)'; ctx.lineWidth=2;
-  for(let i=0;i<=6;i++){ctx.beginPath();ctx.moveTo(i*W/6,H*0.5);ctx.lineTo(W/2,0);ctx.stroke();}
-  for(let i=0;i<=4;i++){ctx.beginPath();ctx.moveTo(0,H*0.5+i*H*0.12);ctx.lineTo(W,H*0.5+i*H*0.12);ctx.stroke();}
-  // basketball hoops far end
-  ctx.fillStyle='#888'; ctx.fillRect(W*0.1,H*0.1,W*0.04,H*0.2); ctx.fillRect(W*0.86,H*0.1,W*0.04,H*0.2);
-  ctx.strokeStyle='#cc6600'; ctx.lineWidth=3;
-  ctx.beginPath(); ctx.arc(W*0.12,H*0.32,W*0.04,0,Math.PI); ctx.stroke();
-  ctx.beginPath(); ctx.arc(W*0.88,H*0.32,W*0.04,0,Math.PI); ctx.stroke();
-  // label
-  ctx.fillStyle='rgba(255,255,255,.3)'; ctx.font=`bold ${W*0.05}px 'Noto Sans JP',sans-serif`; ctx.textAlign='center'; ctx.fillText('体育館の奥…',W/2,H*0.25);
-}
-function shout(type){
-  if(!miniRunning||!shoutRunning) return;
-  shoutRunning=false;
-  const heard=Math.random()<0.5; // 50% chance heard
-  let safe=false, msg='';
-  if(type==='takagi'){
-    safe=true;
-    msg=heard?'「タカギ？　誰だよ」 …気づかれなかった！':'声が届かなかった。セーフ！';
-  } else {
-    // takaki
-    if(!heard){ safe=true; msg='声が届かなかった…セーフ！'; }
-    else { safe=false; msg='「誰だ！」タカキが振り返った！！'; }
-  }
-  // show result bubble
-  const tw=document.getElementById('takakiWrap');
-  const bubble=document.createElement('div');
-  bubble.className='reaction-bubble';
-  bubble.style.cssText=`position:absolute;bottom:70px;left:50%;transform:translateX(-50%);color:${safe?'#006600':'#cc0000'};`;
-  bubble.textContent=safe?'😶':'😡';
-  tw.appendChild(bubble);
-  // sound wave
-  const wave=document.createElement('div'); wave.className='sound-wave';
-  wave.style.cssText=`position:fixed;left:50%;bottom:20%;z-index:25;`;
-  document.getElementById('game3').appendChild(wave);
-  setTimeout(()=>wave.remove(),900);
-
-  setTimeout(()=>{
-    bubble.remove();
-    if(!safe){ triggerGameFail('バレた！！', `${msg}\nタカキに呼び捨てがバレた…`); return; }
-    shoutRemain--;
-    document.getElementById('shoutCount').textContent=`🎯 残り ${shoutRemain} 回`;
-    if(shoutRemain<=0){ triggerGameClear('3回全部バレずに呼べた！！','タカキは最後まで気づかなかった。\n伝説の呼び捨て成功！'); return; }
-    // status message
-    const statusEl=document.getElementById('shoutCount');
-    statusEl.style.background='rgba(0,100,0,.8)';
-    setTimeout(()=>{ statusEl.style.background='rgba(0,0,0,.7)'; shoutRunning=true; },600);
-  },900);
-}
+// ============ GAME3: SHOUT ============
+function startShout(){document.getElementById('game3').style.display='block';miniRunning=true;shoutRemain=3;const canvas=document.getElementById('gymCanvas');canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;drawGym(canvas);document.getElementById('takakiWrap').innerHTML='<div style="transform:scale(0.5);opacity:0.7;">'+TAKAKI_SVG+'</div>';document.getElementById('shoutCount').textContent='🎯 残り '+shoutRemain+' 回';shoutRunning=true;}
+function drawGym(canvas){const W=canvas.width,H=canvas.height,ctx=canvas.getContext('2d');const fl=ctx.createLinearGradient(0,H*0.5,0,H);fl.addColorStop(0,'#c8a878');fl.addColorStop(1,'#a88850');ctx.fillStyle=fl;ctx.fillRect(0,H*0.5,W,H*0.5);ctx.fillStyle='#888898';ctx.fillRect(0,0,W,H*0.5);ctx.strokeStyle='rgba(0,0,0,.15)';ctx.lineWidth=2;for(let i=0;i<=6;i++){ctx.beginPath();ctx.moveTo(i*W/6,H*0.5);ctx.lineTo(W/2,0);ctx.stroke();}ctx.fillStyle='rgba(255,255,255,.3)';ctx.font='bold '+W*0.05+'px sans-serif';ctx.textAlign='center';ctx.fillText('体育館の奥…',W/2,H*0.25);}
+function shout(type){if(!miniRunning||!shoutRunning)return;shoutRunning=false;const heard=Math.random()<0.5;let safe=false,msg='';if(type==='takagi'){safe=true;msg=heard?'「タカギ？　誰だよ」 …気づかれなかった！':'声が届かなかった。セーフ！';}else{if(!heard){safe=true;msg='声が届かなかった…セーフ！';}else{safe=false;msg='「誰だ！」タカキが振り返った！！';}}const tw=document.getElementById('takakiWrap');const bubble=document.createElement('div');bubble.className='reaction-bubble';bubble.style.cssText='position:absolute;bottom:70px;left:50%;transform:translateX(-50%);color:'+(safe?'#006600':'#cc0000')+';font-size:2rem;';bubble.textContent=safe?'😶':'😡';tw.appendChild(bubble);const wave=document.createElement('div');wave.className='sound-wave';wave.style.cssText='position:absolute;left:50%;bottom:20%;z-index:25;';document.getElementById('game3').appendChild(wave);setTimeout(()=>wave.remove(),900);setTimeout(()=>{bubble.remove();if(!safe){triggerGameFail('バレた！！',msg+'\nタカキに呼び捨てがバレた…');return;}shoutRemain--;document.getElementById('shoutCount').textContent='🎯 残り '+shoutRemain+' 回';if(shoutRemain<=0){triggerGameClear('3回全部バレずに呼べた！！','タカキは最後まで気づかなかった。\n伝説の呼び捨て成功！');return;}setTimeout(()=>{shoutRunning=true;},600);},900);}
 
 // ============ RESULTS ============
-function triggerGameClear(title, msg){
-  if(!miniRunning) return; miniRunning=false;
-  cancelAnimationFrame(mtnAnimId); clearInterval(gameTimer);
-  stopMtnListeners();
-  document.getElementById('clearMsg').textContent=msg||title;
-  spawnConfetti(80);
-  setTimeout(()=>document.getElementById('clearOverlay').classList.add('show'),600);
-}
-function triggerGameFail(title, msg){
-  if(!miniRunning) return; miniRunning=false;
-  cancelAnimationFrame(mtnAnimId); clearInterval(gameTimer);
-  stopMtnListeners();
-  document.getElementById('failMsg').textContent=msg||title;
-  setTimeout(()=>document.getElementById('failOverlay').classList.add('show'),600);
-}
-function stopMtnListeners(){
-  const c=document.getElementById('mtnCanvas');
-  c.removeEventListener('click',onMtnTap); c.removeEventListener('touchstart',onMtnTap);
-}
+function triggerGameClear(title,msg){if(!miniRunning)return;miniRunning=false;cancelAnimationFrame(mtnAnimId);clearInterval(gameTimer);stopMtnListeners();document.getElementById('clearMsg').textContent=msg||title;spawnConfetti(80);setTimeout(()=>document.getElementById('clearOverlay').classList.add('show'),600);}
+function triggerGameFail(title,msg){if(!miniRunning)return;miniRunning=false;cancelAnimationFrame(mtnAnimId);clearInterval(gameTimer);stopMtnListeners();document.getElementById('failMsg').textContent=msg||title;setTimeout(()=>document.getElementById('failOverlay').classList.add('show'),600);}
+function stopMtnListeners(){const c=document.getElementById('mtnCanvas');c.removeEventListener('click',onMtnTap);c.removeEventListener('touchstart',onMtnTap);}
 
 // ============ RESTART ============
 function restartAll(){
   ['clearOverlay','failOverlay'].forEach(id=>document.getElementById(id).classList.remove('show'));
-  ['game1','game2','game3'].forEach(id=>{ document.getElementById(id).style.display='none'; });
-  document.getElementById('miniScreen').classList.add('hidden');
-  document.getElementById('cardScreen').classList.add('hidden');
-  document.getElementById('gachaScreen').classList.add('hidden');
+  ['game1','game2','game3'].forEach(id=>{document.getElementById(id).style.display='none';});
+  document.getElementById('miniScreen').classList.add('hidden');document.getElementById('cardScreen').classList.add('hidden');document.getElementById('gachaScreen').classList.add('hidden');
   document.getElementById('dragonWrap').style.display='none';
-  const cw=document.getElementById('capsuleWrap'); cw.classList.add('hidden'); cw.dataset.cracked=''; cw.style.animation=''; cw.style.cursor='';
-  document.getElementById('capsuleSvg').classList.remove('capsule-crack');
-  document.getElementById('teaseOverlay').classList.remove('show');
-  document.getElementById('dragHint').style.display='';
-  document.getElementById('particleContainer').innerHTML='';
-  document.getElementById('ball').style.display='none';
-  cancelAnimationFrame(mtnAnimId); clearInterval(gameTimer);
-  miniRunning=false; mtnTaps=0; dodgeRound=0; shoutRemain=3; ballLaunched=false; playerX=50;
-  document.getElementById('titleScreen').classList.remove('hidden');
-}
+  const cw=document.getElementById('capsuleWrap');cw.classList.add('hidden');cw.dataset.cracked='';cw.style.animation='';
+  document.getElementById('capsuleSvg').classList.remove('capsule-crack');document.getElementById('teaseOverlay').classList.remove('show');document.getElementById('dragHint').style.display='';
+  document.getElementById('particleContainer').innerHTML='';document.getElementById('ball').style.display='none';
+  cancelAnimationFrame(mtnAnimId);clearInterval(gameTimer);miniRunning=false;mtnTaps=0;dodgeRound=0;shoutRemain=3;ballLaunched=false;playerX=50;
+  updateZukanBadge();document.getElementById('titleScreen').classList.remove('hidden');}
 </script>
 
 </body>
-</html>
+</html></html>
