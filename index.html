@@ -17,51 +17,29 @@
   --purple: #2a0a4a;
 }
 
+html { background: #0a0612; }
+
 body {
-  background: var(--bg);
+  background: #0a0612;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: 'Noto Sans JP', sans-serif;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-/* 背景の星 */
-.stars {
+#bgCanvas {
   position: fixed;
   inset: 0;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-}
-.star {
-  position: absolute;
-  border-radius: 50%;
-  background: white;
-  animation: twinkle var(--d, 3s) ease-in-out infinite var(--delay, 0s);
-}
-@keyframes twinkle {
-  0%, 100% { opacity: 0.2; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.4); }
+  display: block;
 }
 
-/* 背景グロー */
-.glow-bg {
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(90,20,160,0.35) 0%, transparent 70%);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 0;
-  animation: pulse-glow 4s ease-in-out infinite;
-}
-@keyframes pulse-glow {
-  0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-  50% { opacity: 1; transform: translate(-50%, -50%) scale(1.12); }
-}
+
 
 /* メインコンテナ */
 .container {
@@ -302,8 +280,8 @@ body {
 </head>
 <body>
 
-<div class="stars" id="stars"></div>
-<div class="glow-bg"></div>
+<canvas id="bgCanvas"></canvas>
+
 <div class="sparkles" id="sparkles"></div>
 
 <div class="container">
@@ -361,21 +339,85 @@ body {
     s.style.display = 'block';
   }
 
-  // 星を生成
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 2.5 + 0.5;
-    s.style.cssText = `
-      width:${size}px; height:${size}px;
-      top:${Math.random()*100}%;
-      left:${Math.random()*100}%;
-      --d:${2+Math.random()*4}s;
-      --delay:${Math.random()*4}s;
-    `;
-    starsEl.appendChild(s);
+  // ===== Canvas背景（完全黒塗り＋ドット星空＋グロー） =====
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+
+  let W, H, stars = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
   }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < 200; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.5 + 0.3,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.4 + Math.random() * 1.2,
+        bright: 0.3 + Math.random() * 0.7
+      });
+    }
+    // ドット絵風の大きめ星をいくつか追加
+    for (let i = 0; i < 18; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: 2.5,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.3 + Math.random() * 0.6,
+        bright: 1,
+        dot: true
+      });
+    }
+  }
+
+  let t = 0;
+  function draw() {
+    t += 0.016;
+
+    // 完全に黒で塗りつぶし（これで白くならない）
+    ctx.fillStyle = '#0a0612';
+    ctx.fillRect(0, 0, W, H);
+
+    // 中央グロー
+    const gx = W / 2, gy = H / 2;
+    const grad = ctx.createRadialGradient(gx, gy, 0, gx, gy, Math.min(W, H) * 0.5);
+    grad.addColorStop(0, `rgba(80,10,150,${0.25 + Math.sin(t*0.5)*0.06})`);
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    // 星を描画
+    for (const s of stars) {
+      const alpha = s.bright * (0.4 + 0.6 * (Math.sin(t * s.speed + s.phase) * 0.5 + 0.5));
+      if (s.dot) {
+        // ドット絵風：2x2の四角い星
+        ctx.fillStyle = `rgba(255,255,220,${alpha})`;
+        ctx.fillRect(Math.floor(s.x), Math.floor(s.y), 2, 2);
+        // 十字型のグロー
+        ctx.fillStyle = `rgba(255,255,200,${alpha * 0.4})`;
+        ctx.fillRect(Math.floor(s.x) - 1, Math.floor(s.y), 4, 2);
+        ctx.fillRect(Math.floor(s.x), Math.floor(s.y) - 1, 2, 4);
+      } else {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+        ctx.fill();
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  resize();
+  initStars();
+  draw();
+  window.addEventListener('resize', () => { resize(); initStars(); });
 
   // キラキラ
   const spEl = document.getElementById('sparkles');
@@ -397,4 +439,4 @@ body {
 </script>
 
 </body>
-</html>
+</html></html>
